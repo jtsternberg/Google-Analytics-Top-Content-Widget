@@ -6,7 +6,7 @@ Plugin URI: http://j.ustin.co/yWTtmy
 Author: Jtsternberg
 Author URI: http://about.me/jtsternberg
 Donate link: http://j.ustin.co/rYL89n
-Version: 1.4.7
+Version: 1.4.8
 */
 
 require_once dirname( __FILE__ ) . '/class-tgm-plugin-activation.php';
@@ -212,7 +212,7 @@ class dsgnwrks_google_top_posts_widgets extends WP_Widget {
         $instance['catlimit'] = esc_attr( $new_instance['catlimit'] );
         $instance['catfilter'] = esc_attr( $new_instance['catfilter'] );
         $instance['postfilter'] = esc_attr( $new_instance['postfilter'] );
-        delete_transient( 'dw-gtc-list' );
+        delete_transient( 'dw-gtc-list-'.$this->number );
 
         return $instance;
     }
@@ -226,7 +226,7 @@ class dsgnwrks_google_top_posts_widgets extends WP_Widget {
         $title = apply_filters( 'widget_title', $instance['title'] );
         if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
 
-        echo dsgnwrks_gtc_top_content_shortcode( $instance, 'widget' );
+        echo dsgnwrks_gtc_top_content_shortcode( $instance, 'widget', $this->number );
 
         echo $after_widget;
 
@@ -254,7 +254,7 @@ function dsgnwrks_change_link_url( $complete_link_url ) {
 
 // Writing Prompts Calendar Shortcode
 add_shortcode( 'google_top_content', 'dsgnwrks_gtc_top_content_shortcode' );
-function dsgnwrks_gtc_top_content_shortcode( $atts, $context ) {
+function dsgnwrks_gtc_top_content_shortcode( $atts, $context, $number = 0 ) {
 
   $defaults = array(
     'title' => 'Top Viewed Content',
@@ -280,7 +280,7 @@ function dsgnwrks_gtc_top_content_shortcode( $atts, $context ) {
       // @Dev
       // $atts['update'] = true;
       if ( empty( $atts['update'] ) ) {
-        $trans = get_transient( 'dw-gtc-list' );
+        $trans = get_transient( 'dw-gtc-list-'.$number );
         $transuse = "\n<!-- using transient -->\n";
       }
 
@@ -415,7 +415,7 @@ function dsgnwrks_gtc_top_content_shortcode( $atts, $context ) {
 
         }
         $list = apply_filters( 'gtc_list_output', $list );
-        set_transient( 'dw-gtc-list', $list, 86400 );
+        set_transient( 'dw-gtc-list-'.$number, $list, 86400 );
         return $transuse . $list . $transuse;
       }
       return $transuse . apply_filters( 'gtc_list_output', $trans ) . $transuse;
