@@ -1,17 +1,17 @@
 # Google Analytics Top Content Widget #
 
-**Contributors:** jtsternberg
-**Plugin Name:**  Google Analytics Top Content Widget
-**Plugin URI:** http://j.ustin.co/yWTtmy
-**Tags:** google analytics, google, top posts, top content, display rank, page rank, page views, widget, sidebar, sidebar widget, Google Analytics Dashboard, shortcode, site stats, statistics, stats
-**Author:** Jtsternberg
-**Author URI:** http://about.me/jtsternberg
-**Donate link:** http://j.ustin.co/rYL89n
-**Requires at least:** 3.0
-**Tested up to:** 3.6
-**Stable tag:** 1.4.7
-**Version:** 1.4.7
-**License:** GPLv2 or later
+**Contributors:** jtsternberg  
+**Plugin Name:**  Google Analytics Top Content Widget  
+**Plugin URI:** http://j.ustin.co/yWTtmy  
+**Tags:** google analytics, google, top posts, top content, display rank, page rank, page views, widget, sidebar, sidebar widget, Google Analytics Dashboard, shortcode, site stats, statistics, stats  
+**Author:** Jtsternberg  
+**Author URI:** http://about.me/jtsternberg  
+**Donate link:** http://j.ustin.co/rYL89n  
+**Requires at least:** 3.0  
+**Tested up to:** 3.6  
+**Stable tag:** 1.4.7  
+**Version:** 1.4.7  
+**License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
 Widget and shortcode to display top content according to Google Analytics. ("Google Analytics Dashboard" plugin required)
@@ -90,10 +90,11 @@ If you run into a problem or have a question, contact me ([contact form](http://
 ## Screenshots ##
 
 ###1. Widget options.###
-![Widget options.](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/blob/master/screenshot-1.jpg)
+![Widget options.](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/raw/master/screenshot-1.jpg)
+
 
 ###2. Widget display (in an ordered list).###
-![Widget display (in an ordered list).](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/blob/master/screenshot-2.jpg)
+![Widget display (in an ordered list).](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/raw/master/screenshot-2.jpg)
 
 
 ## Changelog ##
