@@ -1,19 +1,18 @@
-# Plugin Name #
-Google Analytics Top Content Widget
+# Google Analytics Top Content Widget #
 
-**Contributors:** jtsternberg  
-Plugin Name:  Google Analytics Top Content Widget
-Plugin URI: http://j.ustin.co/yWTtmy
-**Tags:** google analytics, google, top posts, top content, display rank, page rank, page views, widget, sidebar, sidebar widget, Google Analytics Dashboard, shortcode, site stats, statistics, stats  
-Author: Jtsternberg
-Author URI: http://about.me/jtsternberg
-**Donate link:** http://j.ustin.co/rYL89n  
-**Requires at least:** 3.0  
-**Tested up to:** 3.6  
-**Stable tag:** 1.4.7  
-Version: 1.4.7
-**License:** GPLv2 or later  
-**License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
+**Contributors:** jtsternberg
+**Plugin Name:**  Google Analytics Top Content Widget
+**Plugin URI:** http://j.ustin.co/yWTtmy
+**Tags:** google analytics, google, top posts, top content, display rank, page rank, page views, widget, sidebar, sidebar widget, Google Analytics Dashboard, shortcode, site stats, statistics, stats
+**Author:** Jtsternberg
+**Author URI:** http://about.me/jtsternberg
+**Donate link:** http://j.ustin.co/rYL89n
+**Requires at least:** 3.0
+**Tested up to:** 3.6
+**Stable tag:** 1.4.7
+**Version:** 1.4.7
+**License:** GPLv2 or later
+**License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
 Widget and shortcode to display top content according to Google Analytics. ("Google Analytics Dashboard" plugin required)
 
@@ -52,7 +51,8 @@ All of the widget options are exactly that.. optional. If you don't include them
 * Plugin uses WordPress transients to cache the Google results so you're not running the update from Google every time. cache updates every 24 hours.
 * Developer Friendly. Many filters built in to allow you to filter the results to dispay how you want.  One example of that would be to remove your Site's title from the results. (now unnecessary, as the widget/shortcode has the option built in)
 ** [Example using a filter to add view counts after the title](http://wordpress.org/support/topic/top-viewed-content-couple-of-tweeks-needed?replies=9#post-3816989) -
-`add_filter( 'gtc_pages_filter', 'gtc_add_viewcount_title' );
+```php
+add_filter( 'gtc_pages_filter', 'gtc_add_viewcount_title' );
 function gtc_add_viewcount_title( $pages ) {
 
 	if ( !$pages )
@@ -63,7 +63,8 @@ function gtc_add_viewcount_title( $pages ) {
 		$pages[$key]['children']['value'] = $pages[$key]['children']['value'] . ' ['. $pages[$key]['children']['children']['ga:pageviews'] .' Views]';
 	}
 	return $pages;
-}`
+}
+```
 
 
 ## Installation ##
@@ -89,10 +90,10 @@ If you run into a problem or have a question, contact me ([contact form](http://
 ## Screenshots ##
 
 ###1. Widget options.###
-![Widget options.](http://s.wordpress.org/plugins/plugin-name/screenshot-1.png)
+![Widget options.](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/blob/master/screenshot-1.jpg)
 
 ###2. Widget display (in an ordered list).###
-![Widget display (in an ordered list).](http://s.wordpress.org/plugins/plugin-name/screenshot-2.png)
+![Widget display (in an ordered list).](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/blob/master/screenshot-2.jpg)
 
 
 ## Changelog ##
