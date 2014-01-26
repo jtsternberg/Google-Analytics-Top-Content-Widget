@@ -4,9 +4,9 @@ Plugin Name:  Google Analytics Top Content Widget
 Description: Widget and shortcode to display top content according to Google Analytics. ("Google Analytics Dashboard" plugin required)
 Plugin URI: http://j.ustin.co/yWTtmy
 Author: Jtsternberg
-Author URI: http://about.me/jtsternberg
+Author URI: http://jtsternberg.com/about
 Donate link: http://j.ustin.co/rYL89n
-Version: 1.4.8
+Version: 1.5.0
 */
 
 
