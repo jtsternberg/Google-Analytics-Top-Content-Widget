@@ -6,7 +6,7 @@ Plugin Name:  Google Analytics Top Content Widget
 Plugin URI: http://j.ustin.co/yWTtmy
 Tags: google analytics, google, top posts, top content, display rank, page rank, page views, widget, sidebar, sidebar widget, Google Analytics Dashboard, shortcode, site stats, statistics, stats
 Author: Jtsternberg
-Author URI: http://about.me/jtsternberg
+Author URI: http://jtsternberg.com/about
 Donate link: http://j.ustin.co/rYL89n
 Requires at least: 3.0
 Tested up to: 3.8
@@ -25,9 +25,14 @@ Requires a Google Analytics account, and the plugin, ["Google Analytics Dashboar
 
 Also includes a shortcode to display the top content in your posts and pages.
 
-= Shortcode with options supported: =
+= Shortcodes with options supported: =
 
+* Companion shortcode to widget
 `[google_top_content pageviews=5 number=10 showhome=no time=2628000 timeval=2]`
+* Display a post's/page's number of views
+`[google_analytics_views]`
+* Conditional text where \*\*count\*\* will be replaced
+`[google_analytics_views]This page has received **count** views.[/google_analytics_views]`
 
 = Shortcode attributes definitions: =
 
