@@ -15,7 +15,7 @@ add_action( 'widgets_init', 'dsgnwrks_register_google_top_posts_widget' );
  * Register Top Content widgets
  */
 function dsgnwrks_register_google_top_posts_widget() {
-	register_widget( 'dsgnwrks_google_top_posts_widget' );
+	register_widget( 'dsgnwrks_google_top_posts_widgets' );
 }
 
 class GA_Top_Content {
@@ -360,12 +360,12 @@ class GA_Top_Content {
 /**
  * Top Content widget
  */
-class dsgnwrks_google_top_posts_widget extends WP_Widget {
+class dsgnwrks_google_top_posts_widgets extends WP_Widget {
 
 	public function __construct() {
 		$this->gatc = new GA_Top_Content();
 
-		parent::__construct( 'dsgnwrks_google_top_posts_widget', 'Google Analytics Top Content', array(
+		parent::__construct( 'dsgnwrks_google_top_posts_widgets', 'Google Analytics Top Content', array(
 			'classname' => 'google_top_posts',
 			'description' => 'Show top posts from Google Analytics'
 		) );
