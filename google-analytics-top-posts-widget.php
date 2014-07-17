@@ -6,7 +6,7 @@ Plugin URI: http://j.ustin.co/yWTtmy
 Author: Jtsternberg
 Author URI: http://jtsternberg.com/about
 Donate link: http://j.ustin.co/rYL89n
-Version: 1.5.1
+Version: 1.5.2
 */
 
 
@@ -98,11 +98,25 @@ class GA_Top_Content {
 	}
 
 	public function message_one() {
-		return '<p><strong>The "Google Analytics Top Content" widget requires the plugin, <em>"Google Analytics Dashboard"</em>, to be installed and activated.</strong></p><p><a href="'. admin_url( 'plugins.php?page=install-required-plugins' ) .'" class="thickbox" title="Install Google Analytics Dashboard">Install plugin</a> | <a href="'. admin_url( 'plugins.php' ) .'" class="thickbox" title="Activate Google Analytics Dashboard">Activate plugin</a>.</p>';
+		return sprintf(
+			'<p><strong>%s</strong></p><p><a href="%s" class="thickbox" title="%s">%s</a> | <a href="%s" class="thickbox" title="%s">%s</a>.</p>',
+			sprintf( __( 'The "Google Analytics Top Content" widget requires the plugin, %s, to be installed and activated.', 'gatpw' ), '<em>"Google Analytics Dashboard"</em>' ),
+			admin_url( 'plugins.php?page=install-required-plugins' ),
+			__( 'Install Google Analytics Dashboard', 'gatpw' ),
+			__( 'Install plugin', 'gatpw' ),
+			admin_url( 'plugins.php' ),
+			__( 'Activate Google Analytics Dashboard', 'gatpw' ),
+			__( 'Activate plugin', 'gatpw' )
+		);
 	}
 
 	public function message_two() {
-		return '<p>You must first login to Google Analytics in the "Google Analytics Dashboard" settings for this widget to work.</p><p><a href="'. admin_url( 'options-general.php?page=google-analytics-dashboard/gad-admin-options.php' ) .'">Go to plugin settings</a>.</p>';
+		return sprintf(
+			'<p>%s</p><p><a href="%s">%s</a>.</p>',
+			__( 'You must first login to Google Analytics in the "Google Analytics Dashboard" settings for this widget to work.', 'gatpw' ),
+			admin_url( 'options-general.php?page=google-analytics-dashboard/gad-admin-options.php' ),
+			__( 'Go to plugin settings', 'gatpw' )
+		);
 	}
 
 	public function change_link_text( $complete_link_text ) {
@@ -171,15 +185,16 @@ class GA_Top_Content {
 		foreach( $pages as $page ) {
 			$url = $page['value'];
 			// Url is index and we don't want the homepage, skip
-			if ( $url == '/' && $atts['showhome'] != '0' )
+			if ( $url == '/' && ! in_array( $atts['showhome'], array( 'no', '0', 0, false ), true ) ) {
 				continue;
+			}
 
 			// We need to check if there are duplicates with query vars
 			$path = pathinfo( $url );
 			$query_var = strpos( $url, '?' );
 			$default_permalink = strpos( $path['filename'], '?p=' );
 			// Strip the query var off the url (if not using default permalinks)
-			$url = ( ! $atts['keep_query_vars'] && false !== $query_var && false === $default_permalink )
+			$url = ( ! ( isset( $atts['keep_query_vars'] ) || $atts['keep_query_vars'] ) && false !== $query_var && false === $default_permalink )
 				? substr( $url, 0, $query_var )
 				: $url;
 
@@ -209,7 +224,7 @@ class GA_Top_Content {
 					}
 				}
 
-				if ( $atts['contentfilter'] != 'allcontent' ) {
+				if ( $atts['contentfilter'] && $atts['contentfilter'] != 'allcontent' ) {
 					if ( empty( $wppost ) )
 						continue;
 					if ( $wppost->post_type != $atts['contentfilter'] )
@@ -223,7 +238,6 @@ class GA_Top_Content {
 						$catlimits = esc_attr( $atts['catlimit'] );
 						$catlimits = explode( ', ', $catlimits );
 						foreach ( $catlimits as $catlimit ) {
-							// if ( is_user_logged_in() ) $list .= '<pre>'. htmlentities( print_r( $wppost->post_name, true ) ) .'</pre>';
 							if ( in_category( $catlimit, $wppost ) ) $limit_array[] = $wppost->ID;
 						}
 						if ( !in_array( $wppost->ID, $limit_array ) )
@@ -248,7 +262,6 @@ class GA_Top_Content {
 					$postfilters = esc_attr( $atts['postfilter'] );
 					$postfilters = explode( ', ', $postfilters );
 					foreach ( $postfilters as $postfilter ) {
-						// if ( is_user_logged_in() ) $list .= '<pre>'. htmlentities( print_r( $wppost->post_name, true ) ) .'</pre>';
 						if ( $postfilter == $wppost->ID ) $postfilter_array[] = $wppost->ID;
 					}
 					if ( in_array( $wppost->ID, $postfilter_array ) )
