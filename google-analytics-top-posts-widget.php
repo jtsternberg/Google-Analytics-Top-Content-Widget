@@ -6,7 +6,7 @@ Plugin URI: http://j.ustin.co/yWTtmy
 Author: Jtsternberg
 Author URI: http://jtsternberg.com/about
 Donate link: http://j.ustin.co/rYL89n
-Version: 1.5.2
+Version: 1.5.3
 */
 
 
@@ -33,7 +33,8 @@ class GA_Top_Content {
 			'contentfilter' => '',
 			'catlimit'      => '',
 			'catfilter'     => '',
-			'postfilter'    => ''
+			'postfilter'    => '',
+			'update'        => false
 		);
 
 		require_once dirname( __FILE__ ) . '/class-tgm-plugin-activation.php';
@@ -136,9 +137,8 @@ class GA_Top_Content {
 			return $this->message_two();
 		}
 
-		$atts = shortcode_atts( $this->defaults, $atts );
+		$atts = shortcode_atts( $this->defaults, $atts, 'google_top_content' );
 		$atts = apply_filters( 'gtc_atts_filter', $atts );
-
 
 		$trans = '';
 		// @Dev
@@ -298,7 +298,7 @@ class GA_Top_Content {
 			'start_date' => date( 'Y-m-d', time() - (60 * 60 * 24 * 30) ),
 			'end_date' => date( 'Y-m-d' ),
 		);
-		$atts = shortcode_atts( $defaults, $atts );
+		$atts = shortcode_atts( $defaults, $atts, 'google_analytics_views' );
 		$atts = apply_filters( 'gtc_atts_filter_analytics_views', $atts );
 
 		if ( ! $this->token() || ! class_exists( 'GADWidgetData' ) )
