@@ -139,13 +139,15 @@ class GA_Top_Content {
 
 		$atts = shortcode_atts( $this->defaults, $atts, 'google_top_content' );
 		$atts = apply_filters( 'gtc_atts_filter', $atts );
+		$unique = md5( serialize( $atts ) );
+		$trans_id = 'dw-gtc-list-'. $number . $unique;
 
 		$trans = '';
 		// @Dev
 		// $atts['update'] = true;
 		if ( empty( $atts['update'] ) ) {
-			$trans = get_transient( 'dw-gtc-list-'.$number );
-			$transuse = "\n<!-- using transient -->\n";
+			$trans = get_transient( $trans_id );
+			$transuse = "\n<!-- using transient - {$trans_id} -->\n";
 		}
 
 		if ( ! empty( $trans ) ) {
@@ -153,7 +155,7 @@ class GA_Top_Content {
 		}
 
 
-		$transuse = "\n<!-- not using transient -->\n";
+		$transuse = "\n<!-- not using transient - {$trans_id} -->\n";
 
 		$time = ( $atts['timeval'] * $atts['time'] );
 		$time_diff = abs( time() - $time );
@@ -286,12 +288,15 @@ class GA_Top_Content {
 
 
 		$list = apply_filters( 'gtc_list_output', $list );
-		set_transient( 'dw-gtc-list-'.$number, $list, 86400 );
+		set_transient( $trans_id, $list, 86400 );
 		return $transuse . $list . $transuse;
 
 	}
 
 	public function views_shortcode( $atts, $content ) {
+
+		if ( ! $this->token() || ! class_exists( 'GADWidgetData' ) )
+			return '';
 
 		$defaults = array(
 			'post_id' => get_the_ID(),
@@ -300,20 +305,19 @@ class GA_Top_Content {
 		);
 		$atts = shortcode_atts( $defaults, $atts, 'google_analytics_views' );
 		$atts = apply_filters( 'gtc_atts_filter_analytics_views', $atts );
-
-		if ( ! $this->token() || ! class_exists( 'GADWidgetData' ) )
-			return '';
+		$unique = md5( serialize( $atts ) );
+		$trans_id = 'dw-gtc-views-' . $atts['post_id'] . $unique;
 
 		$count = '';
 		// @Dev
 		// $atts['update'] = true;
 		if ( empty( $atts['update'] ) ) {
-			$count = get_transient( 'dw-gtc-views-'.$atts['post_id'] );
-			$transuse = "\n<!-- using transient -->\n";
+			$count = get_transient( $trans_id );
+			$transuse = "\n<!-- using transient - {$trans_id} -->\n";
 		}
 
 		if ( empty( $count ) ) {
-			$transuse = "\n<!-- not using transient -->\n";
+			$transuse = "\n<!-- not using transient - {$trans_id} -->\n";
 
 			$permalink   = get_permalink( $atts['post_id'] );
 			$post_status = get_post_status( $atts['post_id'] );
@@ -329,7 +333,7 @@ class GA_Top_Content {
 			$count = isset( $data['value'] ) ? $data['value'] : 0;
 
 			if ( $count ) {
-				set_transient( 'dw-gtc-views-'.$atts['post_id'], $count, 86400 );
+				set_transient( $trans_id, $count, 86400 );
 			}
 
 		}
@@ -493,7 +497,11 @@ class dsgnwrks_google_top_posts_widgets extends WP_Widget {
 		$instance['catfilter']     = esc_attr( $new_instance['catfilter'] );
 		$instance['postfilter']    = esc_attr( $new_instance['postfilter'] );
 
-		delete_transient( 'dw-gtc-list-'.$this->number );
+
+		$atts = shortcode_atts( $this->defaults, $instance, 'google_top_content' );
+		$atts = apply_filters( 'gtc_atts_filter', $atts );
+		$unique = md5( serialize( $atts ) );
+		delete_transient( 'dw-gtc-list-'. $this->number . $unique );
 
 		return $instance;
 	}
