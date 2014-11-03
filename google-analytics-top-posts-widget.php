@@ -196,7 +196,7 @@ class GA_Top_Content {
 			$query_var = strpos( $url, '?' );
 			$default_permalink = strpos( $path['filename'], '?p=' );
 			// Strip the query var off the url (if not using default permalinks)
-			$url = ( ! ( isset( $atts['keep_query_vars'] ) || $atts['keep_query_vars'] ) && false !== $query_var && false === $default_permalink )
+			$url = ( ! ( isset( $atts['keep_query_vars'] ) && $atts['keep_query_vars'] ) && false !== $query_var && false === $default_permalink )
 				? substr( $url, 0, $query_var )
 				: $url;
 
@@ -208,9 +208,9 @@ class GA_Top_Content {
 				continue;
 
 			$urlarray[] = $url;
+			$wppost = null;
 
 			if ( $atts['contentfilter'] != 'allcontent' || $atts['catlimit'] != '' || $atts['catfilter'] != '' || $atts['postfilter'] != '' ) {
-				$wppost = null;
 
 				if ( false !== $default_permalink ) {
 					$wppost = get_post( (int) str_replace( '?p=', '', $path['filename'] ) );
