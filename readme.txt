@@ -1,19 +1,19 @@
-=== Plugin Name ===
+=== Plugin Name ===  
 Google Analytics Top Content Widget
 
 Contributors: jtsternberg
-Plugin Name:  Google Analytics Top Content Widget
-Plugin URI: http://j.ustin.co/yWTtmy
-Tags: google analytics, google, top posts, top content, display rank, page rank, page views, widget, sidebar, sidebar widget, Google Analytics Dashboard, shortcode, site stats, statistics, stats
-Author: Jtsternberg
-Author URI: http://jtsternberg.com/about
-Donate link: http://j.ustin.co/rYL89n
-Requires at least: 3.0
-Tested up to: 3.8
-Stable tag: 1.5.4
-Version: 1.5.4
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Plugin Name:  Google Analytics Top Content Widget  
+Plugin URI: http://j.ustin.co/yWTtmy  
+Tags: google analytics, google, top posts, top content, display rank, page rank, page views, widget, sidebar, sidebar widget, Google Analytics Dashboard, shortcode, site stats, statistics, stats  
+Author: Jtsternberg  
+Author URI: http://jtsternberg.com/about  
+Donate link: http://j.ustin.co/rYL89n  
+Requires at least: 3.0  
+Tested up to: 4.1  
+Stable tag: 1.5.5  
+Version: 1.5.5  
+License: GPLv2 or later  
+License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
 Widget and shortcode to display top content according to Google Analytics. ("Google Analytics Dashboard" plugin required)
 
@@ -98,6 +98,9 @@ If you run into a problem or have a question, contact me ([contact form](http://
 
 == Changelog ==
 
+= 1.5.5 =
+* Bug Fix: Fix a few logic issues causing debug.log notices.
+
 = 1.5.4 =
 * Bug Fix: Use a unique transient ID for every shortcode instance.
 
@@ -156,6 +159,9 @@ If you were using the shortcode and it broke, you will need to switch to using t
 
 
 == Upgrade Notice ==
+
+= 1.5.5 =
+* Bug Fix: Fix a few logic issues causing debug.log notices.
 
 = 1.5.4 =
 * Bug Fix: Use a unique transient ID for every shortcode instance.
