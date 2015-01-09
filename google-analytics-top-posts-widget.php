@@ -6,7 +6,7 @@ Plugin URI: http://j.ustin.co/yWTtmy
 Author: Jtsternberg
 Author URI: http://jtsternberg.com/about
 Donate link: http://j.ustin.co/rYL89n
-Version: 1.5.5
+Version: 1.5.6
 */
 
 
@@ -23,18 +23,20 @@ class GA_Top_Content {
 	public function __construct() {
 
 		$this->defaults = array(
-			'title'         => 'Top Viewed Content',
-			'pageviews'     => 20,
-			'number'        => 5,
-			'timeval'       => '1',
-			'time'          => '2628000',
-			'showhome'      => 0,
-			'titleremove'   => '',
-			'contentfilter' => '',
-			'catlimit'      => '',
-			'catfilter'     => '',
-			'postfilter'    => '',
-			'update'        => false
+			'title'           => 'Top Viewed Content',
+			'pageviews'       => 20,
+			'number'          => 5,
+			'timeval'         => '1',
+			'time'            => '2628000',
+			'showhome'        => 0,
+			'titleremove'     => '',
+			'contentfilter'   => '',
+			'catlimit'        => '',
+			'catfilter'       => '',
+			'thumb_size'      => '',
+			'thumb_alignment' => '',
+			'postfilter'      => '',
+			'update'          => false
 		);
 
 		require_once dirname( __FILE__ ) . '/class-tgm-plugin-activation.php';
@@ -129,6 +131,8 @@ class GA_Top_Content {
 	}
 
 	public function top_content_shortcode( $atts, $context = 'shortcode', $number = 0 ) {
+		static $inline_style = false;
+		static $inline_style_done = false;
 
 		if ( ! class_exists( 'GADWidgetData' ) ) {
 			return $this->message_one();
@@ -209,8 +213,9 @@ class GA_Top_Content {
 
 			$urlarray[] = $url;
 			$wppost = null;
+			$thumb = '';
 
-			if ( $atts['contentfilter'] != 'allcontent' || $atts['catlimit'] != '' || $atts['catfilter'] != '' || $atts['postfilter'] != '' ) {
+			if ( $atts['contentfilter'] != 'allcontent' || $atts['catlimit'] != '' || $atts['catfilter'] != '' || $atts['postfilter'] != '' || ! empty( $atts['thumb_size'] ) ) {
 
 				if ( false !== $default_permalink ) {
 					$wppost = get_post( (int) str_replace( '?p=', '', $path['filename'] ) );
@@ -227,10 +232,12 @@ class GA_Top_Content {
 				}
 
 				if ( $atts['contentfilter'] && $atts['contentfilter'] != 'allcontent' ) {
-					if ( empty( $wppost ) )
+					if ( empty( $wppost ) ) {
 						continue;
-					if ( $wppost->post_type != $atts['contentfilter'] )
+					}
+					if ( $wppost->post_type != $atts['contentfilter'] ) {
 						continue;
+					}
 				}
 
 				if ( $atts['contentfilter'] == 'allcontent' || $atts['contentfilter'] == 'post' ) {
@@ -242,8 +249,9 @@ class GA_Top_Content {
 						foreach ( $catlimits as $catlimit ) {
 							if ( in_category( $catlimit, $wppost ) ) $limit_array[] = $wppost->ID;
 						}
-						if ( !in_array( $wppost->ID, $limit_array ) )
+						if ( !in_array( $wppost->ID, $limit_array ) ) {
 							continue;
+						}
 
 					}
 
@@ -254,8 +262,9 @@ class GA_Top_Content {
 						foreach ( $catfilters as $catfilter ) {
 							if ( in_category( $catfilter, $wppost ) ) $filter_array[] = $wppost->ID;
 						}
-						if ( in_array( $wppost->ID, $filter_array ) )
+						if ( in_array( $wppost->ID, $filter_array ) ) {
 							continue;
+						}
 					}
 				}
 
@@ -266,12 +275,23 @@ class GA_Top_Content {
 					foreach ( $postfilters as $postfilter ) {
 						if ( $postfilter == $wppost->ID ) $postfilter_array[] = $wppost->ID;
 					}
-					if ( in_array( $wppost->ID, $postfilter_array ) )
+					if ( in_array( $wppost->ID, $postfilter_array ) ) {
 						continue;
+					}
 				}
 			}
 
 			$title = stripslashes( wp_filter_post_kses( apply_filters( 'gtc_page_title', $page['children']['value'], $page, $wppost ) ) );
+
+			if ( ! empty( $atts['thumb_size'] ) && $wppost && isset( $wppost->ID ) ) {
+				$class = 'attachment-'. $atts['thumb_size'] .' wp-post-image';
+				if ( ! empty( $atts['thumb_alignment'] ) ) {
+					$class .= ' '. $atts['thumb_alignment'];
+					$inline_style = true;
+				}
+				$thumb = get_the_post_thumbnail( $wppost->ID, $atts['thumb_size'], array( 'class' => $class ) );
+				$thumb = apply_filters( 'gtc_list_item_thumb', '<a class="gtc-content-thumb" href="'. $url .'">' . $thumb . '</a>', $url, $thumb, $wppost, $counter, $title, $url, $atts );
+			}
 
 			if ( !empty( $atts['titleremove'] ) ) {
 				$removes = explode( ',', sanitize_text_field( $atts['titleremove'] ) );
@@ -280,12 +300,16 @@ class GA_Top_Content {
 				}
 			}
 
-			$list .= apply_filters( 'gtc_list_item', '<li><a href="'. $url .'">' . $title . '</a></li>', $page, $wppost, $counter );
+			$list .= apply_filters( 'gtc_list_item', '<li>'. $thumb .'<a class="gtc-link" href="'. $url .'">' . $title . '</a></li>', $page, $wppost, $counter, $title, $url );
 			$counter++;
 			if ( $counter > $atts['number'] ) break;
 		}
 		$list .= '</ol>';
 
+		if ( $inline_style && ! $inline_style_done ) {
+			$list = '<style type="text/css">.google_top_posts li:after{content:"";display: block;clear:both;}</style>'. $list;
+			$inline_style_done = true;
+		}
 
 		$list = apply_filters( 'gtc_list_output', $list );
 		set_transient( $trans_id, $list, 86400 );
@@ -477,33 +501,97 @@ class dsgnwrks_google_top_posts_widgets extends WP_Widget {
 		<?php } ?>
 
 		<p><label><b>Filter Out Post/Page IDs:</b><br/>To remove specific posts/pages, place comma separated post/page ID's.<input class="widefat" style="margin-top:2px;" name="<?php echo $this->get_field_name( 'postfilter' ); ?>"  type="text" value="<?php echo esc_attr( $postfilter ); ?>" /></label></p>
+
+		<p><label><b>Thumbnail Size:</b><br/>Optionally display a thumbnail next to the post title (if the post has a thumbnail).<br>
+		<select style="margin-top:2px;max-width:100%;" name="<?php echo $this->get_field_name( 'thumb_size' ); ?>">
+		<?php
+		echo '<option value="" ', selected( empty( $instance['thumb_size'] ), true ) ,'>No Thumbnail</option>';
+		foreach ( $this->get_image_size_options() as $size => $label ) {
+			echo '<option value="', $size ,'" ', selected( ! empty( $instance['thumb_size'] ) && $size == $instance['thumb_size'] ) ,'>', $label ,'</option>';
+		}
+		?>
+		</select>
+
+		<p><label><b>Thumbnail Alignment:</b><br/>Will only apply if choosing a thumbnail size.<br>
+		<select style="margin-top:2px;max-width:100%;" name="<?php echo $this->get_field_name( 'thumb_alignment' ); ?>">
+			<option value="" <?php selected( empty( $instance['thumb_alignment'] ), true ); ?>>None</option>
+			<option value="alignleft" <?php selected( $instance['thumb_alignment'], 'alignleft' ); ?>>Left Align</option>
+			<option value="alignright" <?php selected( $instance['thumb_alignment'], 'alignright' ); ?>>Right Align</option>
+			<option value="aligncenter" <?php selected( $instance['thumb_alignment'], 'aligncenter' ); ?>>Centered</option>
+		</select>
 		<?php
 
 	}
 
+	/**
+	 * Get list of registered image sizes
+	 *
+	 * @since  1.5.6
+	 *
+	 * @return array  Array of image sizes
+	 */
+	public function get_image_size_options() {
+		global $_wp_additional_image_sizes;
+
+		$image_sizes = array();
+		foreach ( get_intermediate_image_sizes() as $size ) {
+			$size_name = $size;
+			if ( array_key_exists( $size, $_wp_additional_image_sizes ) ) {
+				$size_info = $_wp_additional_image_sizes[ $size ];
+				$size_name = $size_info['width'] .' x '. $size_info['height'] .' &mdash; '. $size_name;
+
+				if ( is_array( $size_info['crop'] ) ) {
+					$size_name .= ' ('. implode( ', ', $size_info['crop']) .')';
+				} elseif ( $size_info['crop'] ) {
+					$size_name .= ' (cropped)';
+
+				}
+
+			}
+			$image_sizes[ $size ] = $size_name;
+		}
+
+		return $image_sizes;
+	}
+
 	// save the widget settings
-	public function update($new_instance, $old_instance) {
-		$instance = $old_instance;
+	public function update( $new_instance, $old_instance ) {
+		$cleaned = $old_instance;
 
-		$instance['title']         = esc_attr( $new_instance['title'] );
-		$instance['pageviews']     = absint( $new_instance['pageviews'] );
-		$instance['number']        = absint( $new_instance['number'] );
-		$instance['showhome']      = absint( $new_instance['showhome'] );
-		$instance['time']          = esc_attr( $new_instance['time'] );
-		$instance['timeval']       = absint( $new_instance['timeval'] );
-		$instance['titleremove']   = sanitize_text_field( $new_instance['titleremove'] );
-		$instance['contentfilter'] = esc_attr( $new_instance['contentfilter'] );
-		$instance['catlimit']      = esc_attr( $new_instance['catlimit'] );
-		$instance['catfilter']     = esc_attr( $new_instance['catfilter'] );
-		$instance['postfilter']    = esc_attr( $new_instance['postfilter'] );
+		$to_clean = array(
+			'esc_attr' => array(
+				'title',
+				'time',
+				'contentfilter',
+				'catlimit',
+				'catfilter',
+				'postfilter',
+				'thumb_size',
+				'thumb_alignment',
+			),
+			'absint' => array(
+				'pageviews',
+				'number',
+				'showhome',
+				'timeval',
+			),
+			'sanitize_text_field' => array(
+				'titleremove',
+			),
+		);
 
+		foreach ( $to_clean as $callback => $fields ) {
+			foreach ( $fields as $field ) {
+				$cleaned[ $field ] = $callback( isset( $new_instance[ $field ] ) ? $new_instance[ $field ] : '' );
+			}
+		}
 
-		$atts = shortcode_atts( $this->defaults, $instance, 'google_top_content' );
+		$atts = shortcode_atts( $this->gatc->defaults, $cleaned, 'google_top_content' );
 		$atts = apply_filters( 'gtc_atts_filter', $atts );
 		$unique = md5( serialize( $atts ) );
 		delete_transient( 'dw-gtc-list-'. $this->number . $unique );
 
-		return $instance;
+		return $cleaned;
 	}
 
 	// display the widget
