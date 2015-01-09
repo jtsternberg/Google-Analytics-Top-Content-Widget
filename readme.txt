@@ -41,14 +41,13 @@ Also includes a shortcode to display the top content in your posts and pages.
 * Showhome: Will remove home page from list: (usually "yoursite.com" is the highest viewed page)
 * Time: Selects how far back you would like analytics to pull from. needs to be in seconds. (1 hour - 3600, 1 day - 86400, 1 month - 2628000, 1 year - 31536000).
 * Time Value: time=2628000 timeval=2 like in the example above would be 2 months.
-
-Since 1.3:
-
 * titleremove: Remove site title from listings. (Unless your site doesn't output the site titles, then you will need to add this in order for the filter settings below to work.)
 * contentfilter: Limit listings to a particular post-type (post, page, etc)
 * catlimit: Limit listings to specific categories. (comma separated category ID's)
 * catfilter: Remove listings in specific categories. (comma separated category ID's)
 * postfilter: Remove specific posts/pages, etc by ID. (comma separated post ID's)
+* thumb_size: Optionally display a thumbnail next to the post title (if the post has a thumbnail)
+* thumb_alignment: Thumbnail alignment -- only applies if specifying a thumbnail size
 
 All of the widget options are exactly that.. optional. If you don't include them it will pick some defaults.
 

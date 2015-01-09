@@ -186,7 +186,7 @@ class GA_Top_Content {
 			return $list;
 
 		$urlarray = array();
-		$list .= '<ol>';
+		$list .= '<ol class="gtc-list">';
 		$counter = 1;
 		foreach( $pages as $page ) {
 			$url = $page['value'];
@@ -307,7 +307,7 @@ class GA_Top_Content {
 		$list .= '</ol>';
 
 		if ( $inline_style && ! $inline_style_done ) {
-			$list = '<style type="text/css">.google_top_posts li:after{content:"";display: block;clear:both;}</style>'. $list;
+			$list = '<style type="text/css">.gtc-list li:after{content:"";display: block;clear:both;}</style>'. $list;
 			$inline_style_done = true;
 		}
 
