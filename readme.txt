@@ -69,6 +69,7 @@ function gtc_add_viewcount_title( $pages ) {
 	return $pages;
 }`
 
+Feel free to [fork or contribute on Github](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget).
 
 == Installation ==
 
