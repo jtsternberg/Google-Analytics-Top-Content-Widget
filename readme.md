@@ -8,9 +8,9 @@
 **Author URI:** http://jtsternberg.com/about  
 **Donate link:** http://j.ustin.co/rYL89n  
 **Requires at least:** 3.0  
-**Tested up to:** 4.1  
-**Stable tag:** 1.5.6  
-**Version:** 1.5.6  
+**Tested up to:** 4.2  
+**Stable tag:** 1.5.7	  
+**Version:** 1.5.7  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,6 +103,9 @@ If you run into a problem or have a question, contact me ([contact form](http://
 
 
 ## Changelog
+
+### 1.5.7
+* Update for xss vulnerability, https://make.wordpress.org/plugins/2015/04/20/fixing-add_query_arg-and-remove_query_arg-usage
 
 ### 1.5.6
 * Feature: Add thumbnail option to widget.

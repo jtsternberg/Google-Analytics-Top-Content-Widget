@@ -6,7 +6,7 @@ Plugin URI: http://j.ustin.co/yWTtmy
 Author: Jtsternberg
 Author URI: http://jtsternberg.com/about
 Donate link: http://j.ustin.co/rYL89n
-Version: 1.5.6
+Version: 1.5.7
 */
 
 

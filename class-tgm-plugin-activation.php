@@ -702,7 +702,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
                         array(
                             'install'  => ( current_user_can( 'install_plugins' ) ) ? $show_install_link : '',
                             'activate' => ( current_user_can( 'activate_plugins' ) ) ? $show_activate_link : '',
-                            'dismiss'  => '<a class="dismiss-notice" href="' . add_query_arg( 'tgmpa-dismiss', 'dismiss_admin_notices' ) . '" target="_parent">' . __( 'Dismiss this notice', $this->domain ) . '</a>',
+                            'dismiss'  => '<a class="dismiss-notice" href="' . esc_url( add_query_arg( 'tgmpa-dismiss', 'dismiss_admin_notices' ) ) . '" target="_parent">' . __( 'Dismiss this notice', $this->domain ) . '</a>',
                         )
                     );
 
@@ -911,7 +911,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
             /** Set file_path parameter for any installed plugins */
             $this->populate_file_path();
-            
+
             $installed_plugins = get_plugins();
 
             foreach ( $this->plugins as $plugin ) {
@@ -1113,24 +1113,24 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
                 $i++;
             }
-            
+
             /** Sort plugins by Required/Recommended type and by alphabetical listing within each type */
             $resort = array();
             $req = array();
             $rec = array();
-            
+
             /** Grab all the plugin types */
             foreach ( $table_data as $plugin )
                 $resort[] = $plugin['type'];
-            
+
             /** Sort each plugin by type */
             foreach ( $resort as $type )
                 if ( 'Required' == $type )
                     $req[] = $type;
                 else
                     $rec[] = $type;
-            
-            /** Sort alphabetically each plugin type array, merge them and then sort in reverse	(lists Required plugins first) */	
+
+            /** Sort alphabetically each plugin type array, merge them and then sort in reverse	(lists Required plugins first) */
             sort( $req );
             sort( $rec );
             array_merge( $resort, $req, $rec );
