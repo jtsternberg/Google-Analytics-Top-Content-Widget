@@ -6,7 +6,7 @@ Plugin URI: http://j.ustin.co/yWTtmy
 Author: Jtsternberg
 Author URI: http://jtsternberg.com/about
 Donate link: http://j.ustin.co/rYL89n
-Version: 1.6.0
+Version: 1.6.1
 */
 
 
@@ -173,6 +173,8 @@ class GA_Top_Content {
 			$time_diff = abs( time() - $month );
 		}
 
+		$atts['context'] = ( $context ) ? $context : 'shortcode';
+
 		$params = array(
 			'ids'         => 'ga:'. $this->id(),
 			'start-date'  => date( 'Y-m-d', $time_diff ),
@@ -184,9 +186,8 @@ class GA_Top_Content {
 			'max-results' => 100,
 		);
 
-		$pages = $this->parse_list_response( $this->make_request( $params ) );
+		$pages = $this->parse_list_response( $this->make_request( $params, 'top_content_'. $atts['context'] ) );
 
-		$atts['context'] = ( $context ) ? $context : 'shortcode';
 		$pages = apply_filters( 'gtc_pages_filter', $pages, $atts );
 
 		$list = '';
@@ -379,7 +380,7 @@ class GA_Top_Content {
 				return '';
 			}
 
-			$data = $this->make_request( array(
+			$params = array(
 				'ids'         => 'ga:'. $this->id(),
 				'dimensions'  => 'ga:pageTitle,ga:pagePath',
 				'metrics'     => 'ga:pageViews',
@@ -387,7 +388,9 @@ class GA_Top_Content {
 				'max-results' => 100,
 				'start-date'  => $atts['start_date'],
 				'end-date'    => $atts['end_date'],
-			) );
+			);
+
+			$data = $this->make_request( $params, 'views_shortcode' );
 
 			$count = 0;
 
@@ -445,7 +448,7 @@ class GA_Top_Content {
 		return $this->list_item_format;
 	}
 
-	public function make_request( $params ) {
+	public function make_request( $params, $context = '' ) {
 		if ( ! class_exists( 'Yoast_Google_Analytics' ) ) {
 			return;
 		}
@@ -468,6 +471,12 @@ class GA_Top_Content {
 			foreach ( $files_to_include as $class => $file ) {
 				require_once $path . $file;
 			}
+		}
+
+		$params = apply_filters( 'gtc_analytics_request_params', $params );
+
+		if ( $context && is_scalar( $context ) ) {
+			$params = apply_filters( "gtc_analytics_{$context}_request_params", $params );
 		}
 
 		$response = Yoast_Google_Analytics::get_instance()->do_request( add_query_arg( $params, 'https://www.googleapis.com/analytics/v3/data/ga' ) );

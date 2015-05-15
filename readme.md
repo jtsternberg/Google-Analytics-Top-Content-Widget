@@ -10,7 +10,7 @@
 **Requires at least:** 3.0  
 **Tested up to:** 4.2  
 **Stable tag:** trunk	  
-**Version:** 1.6.0  
+**Version:** 1.6.1  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -83,12 +83,15 @@ function gtc_add_viewcount_title( $pages ) {
 
 ## Frequently Asked Questions ##
 
-### After Upgrading to 1.4, my widget stopped working ###
+### After Upgrading to 1.4, my widget stopped working
 I updated the widget options for the date picker, and as a result, it broke any widgets that were saved with the old options. 1.4.1 solves that, but either way, re-saving the widget will correct the issue.
 
 If you were using the shortcode and it broke, you will need to switch to using the shortcode with the new format (described [here](http://wordpress.org/extend/plugins/google-analytics-top-posts-widget/))
 
-### ?? ###
+### Is it possible to configure the metric being sent to GA, for example to use uniques (ga:uniquePageviews) instead?
+* Yes, use this gist: [https://gist.github.com/jtsternberg/918238ff899c2762b41b](https://gist.github.com/jtsternberg/918238ff899c2762b41b)
+
+### ??
 If you run into a problem or have a question, contact me ([contact form](http://j.ustin.co/scbo43) or [@jtsternberg on twitter](http://j.ustin.co/wUfBD3)). I'll add them here.
 
 
@@ -103,6 +106,9 @@ If you run into a problem or have a question, contact me ([contact form](http://
 
 
 ## Changelog
+
+### 1.6.1
+* New filters, 'gtc_analytics_request_params', and "gtc_analytics_{$context}_request_params" for modifying the request arguments to the Google Analytics API. (for things [like this](https://wordpress.org/support/topic/uniques-instead-of-raw-pageviews?replies=1))
 
 ### 1.6.0
 * Replaced dependency on 'Google Analytics Dashboard' plugin with a dependency on 'Google Analytics by Yoast'
