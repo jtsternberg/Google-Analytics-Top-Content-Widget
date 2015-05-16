@@ -91,6 +91,9 @@ If you were using the shortcode and it broke, you will need to switch to using t
 ### Is it possible to configure the metric being sent to GA, for example to use uniques (ga:uniquePageviews) instead?
 * Yes, use this gist: [https://gist.github.com/jtsternberg/918238ff899c2762b41b](https://gist.github.com/jtsternberg/918238ff899c2762b41b)
 
+### Can I display the analytics count next to the title?
+* Yes, use this gist: [https://gist.github.com/jtsternberg/449b7ea79fd5ad460143](https://gist.github.com/jtsternberg/449b7ea79fd5ad460143)
+
 ### ??
 If you run into a problem or have a question, contact me ([contact form](http://j.ustin.co/scbo43) or [@jtsternberg on twitter](http://j.ustin.co/wUfBD3)). I'll add them here.
 
