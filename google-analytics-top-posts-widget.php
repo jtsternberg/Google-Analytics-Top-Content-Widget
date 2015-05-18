@@ -339,7 +339,8 @@ class GA_Top_Content {
 
 		$list = apply_filters( 'gtc_list_output', $list );
 
-		set_transient( $trans_id, $list, DAY_IN_SECONDS );
+		$cache_expiration = apply_filters( 'gtc_top_content_shortcode_cache_expiration', DAY_IN_SECONDS );
+		set_transient( $trans_id, $list, $cache_expiration );
 
 		return $transuse . $list . $transuse;
 	}
@@ -403,7 +404,8 @@ class GA_Top_Content {
 			}
 
 			if ( $count ) {
-				set_transient( $trans_id, $count, DAY_IN_SECONDS );
+				$cache_expiration = apply_filters( 'gtc_views_shortcode_cache_expiration', DAY_IN_SECONDS );
+				set_transient( $trans_id, $count, $cache_expiration );
 			}
 		}
 
