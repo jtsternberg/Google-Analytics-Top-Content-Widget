@@ -49,6 +49,39 @@ class GA_Top_Content {
 		add_shortcode( 'google_top_content', array( $this, 'top_content_shortcode' ) );
 		add_shortcode( 'google_analytics_views', array( $this, 'views_shortcode' ) );
 
+		// Flush shortcode cache
+		add_action( 'save_post', array( $this, 'flush_on_save' ), 10, 2 );
+	}
+
+	public function flush_on_save( $post_id, $post ) {
+
+		if (
+			defined( 'DOING_AJAX' )
+			|| defined( 'DOING_AUTOSAVE' )
+			|| wp_is_post_revision( $post_id )
+			|| wp_is_post_autosave( $post_id )
+			|| ! current_user_can( 'edit_pages' )
+		) {
+			return;
+		}
+
+		$has_top_content = false !== strpos( $post->post_content, '[google_top_content' );
+		$has_views       = false !== strpos( $post->post_content, '[google_analytics_views' );
+
+		if ( ! $has_top_content && ! $has_views ) {
+			return;
+		}
+
+		add_filter( 'gtc_atts_filter', array( $this, 'set_flush_attribute' ) );
+		add_filter( 'gtc_atts_filter_analytics_views', array( $this, 'set_flush_attribute' ) );
+
+		// Cause shortcodes to be run
+		do_shortcode( $post->post_content );
+	}
+
+	public function set_flush_attribute( $atts ) {
+		$atts['update'] = true;
+		return $atts;
 	}
 
 	/**
@@ -137,6 +170,7 @@ class GA_Top_Content {
 		if ( ! class_exists( 'Yoast_Google_Analytics' ) ) {
 			return $this->message_one();
 		}
+
 		if ( ! $this->id() ) {
 			return $this->message_two();
 		}
