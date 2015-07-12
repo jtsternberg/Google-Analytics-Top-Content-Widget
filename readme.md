@@ -5,12 +5,12 @@
 **Plugin URI:** http://j.ustin.co/yWTtmy  
 **Tags:** google analytics, google, top posts, top content, display rank, page rank, page views, widget, sidebar, sidebar widget, Google Analytics by Yoast, shortcode, site stats, statistics, stats  
 **Author:** Jtsternberg  
-**Author URI:** http://jtsternberg.com/about  
+**Author URI:** http://dsgnwrks.pro  
 **Donate link:** http://j.ustin.co/rYL89n  
 **Requires at least:** 3.0  
-**Tested up to:** 4.2  
+**Tested up to:** 4.3  
 **Stable tag:** trunk	  
-**Version:** 1.6.1  
+**Version:** 1.6.2  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -109,6 +109,10 @@ If you run into a problem or have a question, contact me ([contact form](http://
 
 
 ## Changelog
+
+### 1.6.2
+* Update TGM-Plugin-Activation library.
+* Cause shortcode caches to be flushed when the post is updated. 
 
 ### 1.6.1
 * New filters, 'gtc_analytics_request_params', and "gtc_analytics_{$context}_request_params" for modifying the request arguments to the Google Analytics API. (for things [like this](https://wordpress.org/support/topic/uniques-instead-of-raw-pageviews?replies=1))
