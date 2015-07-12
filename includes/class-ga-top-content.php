@@ -39,7 +39,7 @@ class GA_Top_Content {
 			'update'          => false,
 		);
 
-		require_once GATC_INCLUDES_DIR . 'class-tgm-plugin-activation.php';
+		require_once GATC_DIR . 'vendor/tgm-plugin-activation/class-tgm-plugin-activation.php';
 		add_action( 'tgmpa_register', array( $this, 'register_required_plugins' ) );
 
 		add_filter( 'tgmpa_complete_link_text', array( $this, 'change_link_text' ) );

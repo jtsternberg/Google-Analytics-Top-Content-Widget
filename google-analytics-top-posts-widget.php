@@ -23,7 +23,8 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-define( 'GATC_INCLUDES_DIR', plugin_dir_path( __FILE__ ) .'includes/'; );
+define( 'GATC_DIR', plugin_dir_path( __FILE__ ) );
+define( 'GATC_INCLUDES_DIR', GATC_DIR .'includes/' );
 
 require_once( GATC_INCLUDES_DIR . 'class-ga-top-content.php' );
 
