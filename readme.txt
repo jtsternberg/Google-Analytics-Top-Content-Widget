@@ -105,7 +105,7 @@ If you run into a problem or have a question, contact me ([contact form](http://
 == Changelog ==
 
 = 1.6.3 =
-* Bug fid: "Google Analytics by Yoast" version 5.4.3 changed the name/location of their Google Analytics client class, so need to compensate
+* Bug fix: "Google Analytics by Yoast" version 5.4.3 changed the name/location of their Google Analytics client class, so need to compensate
 
 = 1.6.2 =
 * Update TGM-Plugin-Activation library.
@@ -187,7 +187,7 @@ If you were using the shortcode and it broke, you will need to switch to using t
 == Upgrade Notice ==
 
 = 1.6.3 =
-* Bug fid: "Google Analytics by Yoast" version 5.4.3 changed the name/location of their Google Analytics client class, so need to compensate
+* Bug fix: "Google Analytics by Yoast" version 5.4.3 changed the name/location of their Google Analytics client class, so need to compensate
 
 = 1.6.2 =
 * Update TGM-Plugin-Activation library.
