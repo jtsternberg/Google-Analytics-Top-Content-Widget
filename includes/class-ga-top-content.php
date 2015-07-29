@@ -375,7 +375,7 @@ class GA_Top_Content {
 		return $transuse . $list . $transuse;
 	}
 
-	public function views_shortcode( $atts, $content ) {
+	public function views_shortcode( $atts = array(), $content = '' ) {
 
 		if ( ! $this->id() || ! class_exists( 'Yoast_Google_Analytics' ) ) {
 			return '';
