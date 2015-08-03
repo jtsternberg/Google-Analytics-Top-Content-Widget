@@ -102,8 +102,8 @@ class GA_Top_Content {
 		$config = array(
 			'domain'           => 'top-google-posts',
 			'default_path'     => '',
-			'parent_menu_slug' => 'plugins.php',
-			'parent_url_slug'  => 'plugins.php',
+			'parent_slug'      => 'plugins.php',
+			'capability'       => 'install_plugins',
 			'menu'             => 'install-required-plugins',
 			'has_notices'      => true,
 			'is_automatic'     => true,
