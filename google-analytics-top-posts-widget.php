@@ -15,7 +15,7 @@
  * Author:      Jtsternberg
  * Author URI:  http://dsgnwrks.pro
  * Donate link: http://j.ustin.co/rYL89n
- * Version:     1.6.3
+ * Version:     1.6.4
  */
 
 // If this file is called directly, abort.
