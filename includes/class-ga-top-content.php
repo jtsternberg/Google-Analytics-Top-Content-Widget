@@ -39,11 +39,14 @@ class GA_Top_Content {
 			'update'          => false,
 		);
 
-		require_once GATC_DIR . 'vendor/tgm-plugin-activation/class-tgm-plugin-activation.php';
-		add_action( 'tgmpa_register', array( $this, 'register_required_plugins' ) );
+		// only do TGM Plugin Activation if we don't already have Yoast Google Analytics active
+		if ( ! class_exists( 'Yoast_GA_Admin' ) ) {
+			require_once GATC_DIR . 'vendor/tgm-plugin-activation/class-tgm-plugin-activation.php';
+			add_action( 'tgmpa_register', array( $this, 'register_required_plugins' ) );
 
-		add_filter( 'tgmpa_complete_link_text', array( $this, 'change_link_text' ) );
-		add_filter( 'tgmpa_complete_link_url', array( $this, 'change_link_url' ) );
+			add_filter( 'tgmpa_complete_link_text', array( $this, 'change_link_text' ) );
+			add_filter( 'tgmpa_complete_link_url', array( $this, 'change_link_url' ) );
+		}
 
 		// Top Content Shortcode
 		add_shortcode( 'google_top_content', array( $this, 'top_content_shortcode' ) );
