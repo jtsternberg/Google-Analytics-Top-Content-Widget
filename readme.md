@@ -10,7 +10,7 @@
 **Requires at least:** 3.0  
 **Tested up to:** 4.3  
 **Stable tag:** trunk	  
-**Version:** 1.6.4  
+**Version:** 1.6.5  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -109,6 +109,9 @@ If you run into a problem or have a question, contact me ([contact form](http://
 
 
 ## Changelog
+
+### 1.6.5
+* Switch the content filter to a multi-check field, and allow multiple post-type selections. Props [@pmtarantino](https://github.com/pmtarantino), [#9](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/9).
 
 ### 1.6.4
 * Bug fix: Upgrade [TGM-Plugin-Activation](https://github.com/TGMPA/TGM-Plugin-Activation) to fix [an occasional issue](https://github.com/TGMPA/TGM-Plugin-Activation/issues/455#issuecomment-129684199).

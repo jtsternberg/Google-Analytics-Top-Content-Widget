@@ -1,0 +1,3 @@
+[submodule "vendor/tgm-plugin-activation"]
+	path = vendor/tgm-plugin-activation
+	url = git@github.com:TGMPA/TGM-Plugin-Activation.git
