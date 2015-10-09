@@ -39,11 +39,14 @@ class GA_Top_Content {
 			'update'          => false,
 		);
 
-		require_once GATC_DIR . 'vendor/tgm-plugin-activation/class-tgm-plugin-activation.php';
-		add_action( 'tgmpa_register', array( $this, 'register_required_plugins' ) );
+		// only do TGM Plugin Activation if we don't already have Yoast Google Analytics active
+		if ( ! class_exists( 'Yoast_GA_Admin' ) ) {
+			require_once GATC_DIR . 'vendor/tgm-plugin-activation/class-tgm-plugin-activation.php';
+			add_action( 'tgmpa_register', array( $this, 'register_required_plugins' ) );
 
-		add_filter( 'tgmpa_complete_link_text', array( $this, 'change_link_text' ) );
-		add_filter( 'tgmpa_complete_link_url', array( $this, 'change_link_url' ) );
+			add_filter( 'tgmpa_complete_link_text', array( $this, 'change_link_text' ) );
+			add_filter( 'tgmpa_complete_link_url', array( $this, 'change_link_url' ) );
+		}
 
 		// Top Content Shortcode
 		add_shortcode( 'google_top_content', array( $this, 'top_content_shortcode' ) );
@@ -102,8 +105,8 @@ class GA_Top_Content {
 		$config = array(
 			'domain'           => 'top-google-posts',
 			'default_path'     => '',
-			'parent_menu_slug' => 'plugins.php',
-			'parent_url_slug'  => 'plugins.php',
+			'parent_slug'      => 'plugins.php',
+			'capability'       => 'install_plugins',
 			'menu'             => 'install-required-plugins',
 			'has_notices'      => true,
 			'is_automatic'     => true,
@@ -177,6 +180,9 @@ class GA_Top_Content {
 
 		$atts = shortcode_atts( $this->defaults, $atts, 'google_top_content' );
 		$atts = apply_filters( 'gtc_atts_filter', $atts );
+		if(is_string($atts['contentfilter'])){
+			$atts['contentfilter'] = explode(',',$atts['contentfilter']);
+		}
 		$unique = md5( serialize( $atts ) );
 		$trans_id = 'gtc-'. $number . $unique;
 
@@ -256,7 +262,7 @@ class GA_Top_Content {
 			$wppost = null;
 			$thumb = '';
 
-			if ( 'allcontent' != $atts['contentfilter'] || '' != $atts['catlimit'] || '' != $atts['catfilter'] || '' != $atts['postfilter'] || ! empty( $atts['thumb_size'] ) ) {
+			if ( !in_array('allcontent',$atts['contentfilter']) || '' != $atts['catlimit'] || '' != $atts['catfilter'] || '' != $atts['postfilter'] || ! empty( $atts['thumb_size'] ) ) {
 
 				if ( false !== $default_permalink ) {
 					$wppost = get_post( (int) str_replace( '?p=', '', $path['filename'] ) );
@@ -277,16 +283,16 @@ class GA_Top_Content {
 					}
 				}
 
-				if ( $atts['contentfilter'] && 'allcontent' != $atts['contentfilter'] ) {
+				if ( $atts['contentfilter'] && !in_array('allcontent',$atts['contentfilter']) ) {
 					if ( empty( $wppost ) ) {
 						continue;
 					}
-					if ( $wppost->post_type != $atts['contentfilter'] ) {
+					if ( !in_array($wppost->post_type,$atts['contentfilter']) ) {
 						continue;
 					}
 				}
 
-				if ( 'allcontent' == $atts['contentfilter'] || 'post' == $atts['contentfilter'] ) {
+				if ( in_array('allcontent',$atts['contentfilter']) || in_array('post',$atts['contentfilter']) ) {
 
 					if ( $atts['catlimit'] != '' ) {
 						$limit_array = array();

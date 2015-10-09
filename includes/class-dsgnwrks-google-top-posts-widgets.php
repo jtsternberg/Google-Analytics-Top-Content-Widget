@@ -80,16 +80,16 @@ class Dsgnwrks_Google_Top_Posts_Widgets extends WP_Widget {
 
 		<p><label>
 		<b>Limit Listings To:</b>
-		<select name="<?php echo $this->get_field_name( 'contentfilter' ); ?>">
+		<select name="<?php echo $this->get_field_name( 'contentfilter' ); ?>[]" multiple>
 		<?php
-		echo '<option value="allcontent" '. selected( esc_attr( $instance['contentfilter'] ), '' ) .'>Not Limited</option>';
+		echo '<option value="allcontent" '. selected( in_array( 'allcontent', $instance['contentfilter']), true ) .'>Not Limited</option>';
 
 		$content_types = get_post_types( array( 'public' => true ) );
 		foreach ( $content_types as $key => $value ) {
 			if ( 'attachment' == $value ) {
 				continue;
 			}
-			$selected_value = esc_attr( $instance['contentfilter'] ) == $key ? 'selected' : '';
+			$selected_value = in_array( $key, $instance['contentfilter']) ? 'selected' : '';
 			echo "<option value='". esc_attr( $key ) ."' $selected_value>$value</option>";
 		}
 		?>
@@ -167,7 +167,6 @@ class Dsgnwrks_Google_Top_Posts_Widgets extends WP_Widget {
 			'esc_attr' => array(
 				'title',
 				'time',
-				'contentfilter',
 				'catlimit',
 				'catfilter',
 				'postfilter',
@@ -189,6 +188,12 @@ class Dsgnwrks_Google_Top_Posts_Widgets extends WP_Widget {
 			foreach ( $fields as $field ) {
 				$cleaned[ $field ] = $callback( isset( $new_instance[ $field ] ) ? $new_instance[ $field ] : '' );
 			}
+		}
+
+		if(in_array('allcontent', $new_instance['contentfilter'])){
+			$cleaned['contentfilter'] = array('allcontent');
+		} else {
+			$cleaned['contentfilter'] = $new_instance['contentfilter'];
 		}
 
 		$atts = shortcode_atts( $this->gatc->defaults, $cleaned, 'google_top_content' );
