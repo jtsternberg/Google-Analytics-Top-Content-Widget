@@ -30,7 +30,7 @@ class GA_Top_Content {
 			'time'            => '2628000',
 			'showhome'        => 0,
 			'titleremove'     => '',
-			'contentfilter'   => '',
+			'contentfilter'   => array(),
 			'catlimit'        => '',
 			'catfilter'       => '',
 			'thumb_size'      => '',
@@ -180,9 +180,9 @@ class GA_Top_Content {
 
 		$atts = shortcode_atts( $this->defaults, $atts, 'google_top_content' );
 		$atts = apply_filters( 'gtc_atts_filter', $atts );
-		if(is_string($atts['contentfilter'])){
-			$atts['contentfilter'] = explode(',',$atts['contentfilter']);
-		}
+
+		$atts['contentfilter'] = is_string( $atts['contentfilter'] ) ? explode( ',', $atts['contentfilter'] ) : (array) $atts['contentfilter'];
+
 		$unique = md5( serialize( $atts ) );
 		$trans_id = 'gtc-'. $number . $unique;
 
@@ -262,7 +262,7 @@ class GA_Top_Content {
 			$wppost = null;
 			$thumb = '';
 
-			if ( !in_array('allcontent',$atts['contentfilter']) || '' != $atts['catlimit'] || '' != $atts['catfilter'] || '' != $atts['postfilter'] || ! empty( $atts['thumb_size'] ) ) {
+			if ( ! in_array( 'allcontent', $atts['contentfilter'] ) || '' != $atts['catlimit'] || '' != $atts['catfilter'] || '' != $atts['postfilter'] || ! empty( $atts['thumb_size'] ) ) {
 
 				if ( false !== $default_permalink ) {
 					$wppost = get_post( (int) str_replace( '?p=', '', $path['filename'] ) );
@@ -283,16 +283,16 @@ class GA_Top_Content {
 					}
 				}
 
-				if ( $atts['contentfilter'] && !in_array('allcontent',$atts['contentfilter']) ) {
+				if ( $atts['contentfilter'] && ! in_array( 'allcontent', $atts['contentfilter'] ) ) {
 					if ( empty( $wppost ) ) {
 						continue;
 					}
-					if ( !in_array($wppost->post_type,$atts['contentfilter']) ) {
+					if ( ! in_array( $wppost->post_type, $atts['contentfilter'] ) ) {
 						continue;
 					}
 				}
 
-				if ( in_array('allcontent',$atts['contentfilter']) || in_array('post',$atts['contentfilter']) ) {
+				if ( in_array( 'allcontent', $atts['contentfilter'] ) || in_array( 'post', $atts['contentfilter'] ) ) {
 
 					if ( $atts['catlimit'] != '' ) {
 						$limit_array = array();

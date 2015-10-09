@@ -35,6 +35,7 @@ class Dsgnwrks_Google_Top_Posts_Widgets extends WP_Widget {
 
 		$instance = wp_parse_args( (array) $instance, $this->gatc->defaults );
 		extract( $instance, EXTR_SKIP );
+		$instance['contentfilter'] = is_string( $instance['contentfilter'] ) ? explode( ',', $instance['contentfilter'] ) : (array) $instance['contentfilter'];
 
 		?>
 		<p><label><b>Title:</b><input class="widefat" name="<?php echo $this->get_field_name( 'title' ); ?>"  type="text" value="<?php echo esc_attr( $title ); ?>" /></label></p>
@@ -78,25 +79,23 @@ class Dsgnwrks_Google_Top_Posts_Widgets extends WP_Widget {
 
 		<p style="clear: both; padding-top: 15px;"><label><b>Remove Site Title From Listings:</b><br/>Your listings will usually be returned with the page/post name as well as the site title. To remove the site title from the listings, place the exact text you would like removed (i.e. <i>- Site Title</i>) here. If there is more than one phrase to be removed, separate them by commas (i.e. <i>- Site Title, | Site Title</i>). <b>Unless your site doesn't output the site titles, then you will need to add this in order for the filter settings below to work.</b> <input class="widefat" style="margin-top:2px;" name="<?php echo $this->get_field_name( 'titleremove' ); ?>"  type="text" value="<?php echo esc_attr( $titleremove ); ?>" /></label></p>
 
-		<p><label>
-		<b>Limit Listings To:</b>
-		<select name="<?php echo $this->get_field_name( 'contentfilter' ); ?>[]" multiple>
+		<p><b>Limit Listings To:</b></p>
+		<label><input id="<?php echo $this->get_field_id( 'contentfilter' ); ?>-allcontent" type="checkbox" name="<?php echo $this->get_field_name( 'contentfilter' ); ?>[]" value="1" <?php checked( in_array( 'allcontent', $instance['contentfilter'] ) ); ?>/> Not Limited</label><br>
+
 		<?php
-		echo '<option value="allcontent" '. selected( in_array( 'allcontent', $instance['contentfilter']), true ) .'>Not Limited</option>';
 
 		$content_types = get_post_types( array( 'public' => true ) );
 		foreach ( $content_types as $key => $value ) {
 			if ( 'attachment' == $value ) {
 				continue;
 			}
-			$selected_value = in_array( $key, $instance['contentfilter']) ? 'selected' : '';
-			echo "<option value='". esc_attr( $key ) ."' $selected_value>$value</option>";
+			$selected_value = in_array( $key, $instance['contentfilter'] ) ? 'selected' : '';
+			?>
+			<label><input id="<?php echo $this->get_field_id( 'contentfilter' ) . '-' . $key; ?>" type="checkbox" name="<?php echo $this->get_field_name( 'contentfilter' ); ?>[]" value="<?php echo $key; ?>" <?php checked( in_array( $key, $instance['contentfilter'] ) ); ?>/> <?php echo $value; ?></label><br>
+			<?php
 		}
 		?>
-		</select>
 
-		</label>
-		</p>
 
 		<?php if ( 'allcontent' == $instance['contentfilter'] || 'post' == $instance['contentfilter'] ) { ?>
 
@@ -190,11 +189,12 @@ class Dsgnwrks_Google_Top_Posts_Widgets extends WP_Widget {
 			}
 		}
 
-		if(in_array('allcontent', $new_instance['contentfilter'])){
-			$cleaned['contentfilter'] = array('allcontent');
-		} else {
-			$cleaned['contentfilter'] = $new_instance['contentfilter'];
-		}
+		$cleaned['contentfilter'] = is_string( $new_instance['contentfilter'] ) ? explode( ',', $new_instance['contentfilter'] ) : (array) $new_instance['contentfilter'];
+
+		$cleaned['contentfilter'] = in_array( 'allcontent', $cleaned['contentfilter'] )
+			? array( 'allcontent' )
+			: array_map( 'sanitize_text_field', $cleaned['contentfilter'] );
+
 
 		$atts = shortcode_atts( $this->gatc->defaults, $cleaned, 'google_top_content' );
 		$atts = apply_filters( 'gtc_atts_filter', $atts );
