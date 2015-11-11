@@ -9,9 +9,9 @@ Author: Jtsternberg
 Author URI: http://dsgnwrks.pro  
 Donate link: http://j.ustin.co/rYL89n  
 Requires at least: 3.0  
-Tested up to: 4.3  
+Tested up to: 4.4  
 Stable tag: trunk  
-Version: 1.6.5  
+Version: 1.6.6  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -104,6 +104,9 @@ If you run into a problem or have a question, contact me ([contact form](http://
 
 == Changelog ==
 
+= 1.6.6 =
+* Use `url_to_postid()` to properly fetch a post ID from a url. [Support thread](https://wordpress.org/support/topic/gatcw-plugin-posts-not-displayed-when-permalinks-do-not-contain-post-slug).
+
 = 1.6.5 =
 * Switch the content filter to a multi-check field, and allow multiple post-type selections. Props [@pmtarantino](https://github.com/pmtarantino), [#9](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/9).
 
@@ -191,6 +194,9 @@ If you were using the shortcode and it broke, you will need to switch to using t
 
 
 == Upgrade Notice ==
+
+= 1.6.6 =
+* Use `url_to_postid()` to properly fetch a post ID from a url. [Support thread](https://wordpress.org/support/topic/gatcw-plugin-posts-not-displayed-when-permalinks-do-not-contain-post-slug).
 
 = 1.6.5 =
 * Switch the content filter to a multi-check field, and allow multiple post-type selections. Props [@pmtarantino](https://github.com/pmtarantino), [#9](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/9).
