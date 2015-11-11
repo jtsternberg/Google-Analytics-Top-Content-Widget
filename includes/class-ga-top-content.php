@@ -264,24 +264,7 @@ class GA_Top_Content {
 
 			if ( ! in_array( 'allcontent', $atts['contentfilter'] ) || '' != $atts['catlimit'] || '' != $atts['catfilter'] || '' != $atts['postfilter'] || ! empty( $atts['thumb_size'] ) ) {
 
-				if ( false !== $default_permalink ) {
-					$wppost = get_post( (int) str_replace( '?p=', '', $path['filename'] ) );
-				}
-				if ( ! $wppost && ! empty( $url ) && trim( $url ) != '/' ) {
-					$content_types = get_post_types( array( 'public' => true ) );
-
-					foreach ( $content_types as $type ) {
-						if ( 'attachment' == $type ) {
-							continue;
-						}
-
-						$object_name = is_post_type_hierarchical( $type ) ? $url : @end( @array_filter( @explode( '/', $url ) ) );
-
-						if ( $wppost = get_page_by_path( $object_name, OBJECT, $type ) ) {
-							break;
-						}
-					}
-				}
+				$wppost = $this->get_wp_post_object( $url, $default_permalink, $path );
 
 				if ( $atts['contentfilter'] && ! in_array( 'allcontent', $atts['contentfilter'] ) ) {
 					if ( empty( $wppost ) ) {
@@ -379,6 +362,46 @@ class GA_Top_Content {
 		set_transient( $trans_id, $list, $cache_expiration );
 
 		return $transuse . $list . $transuse;
+	}
+
+	public function get_wp_post_object( $url, $default_permalink, $path ) {
+		$post_id = 0;
+
+		// Check default permalinks
+		if ( false !== $default_permalink ) {
+			$post_id = (int) str_replace( '?p=', '', $path['filename'] );
+		}
+
+		// Check if we can get a post ID from the url
+		$post_id = $post_id ? $post_id : url_to_postid( $url );
+
+		// If we have a post ID, attempt to get the post object
+		$wppost = get_post( $post_id );
+
+		if ( ! empty( $wppost ) ) {
+			return $wppost;
+		}
+
+		if ( empty( $url ) || '/' === trim( $url ) ) {
+			return $wppost;
+		}
+
+
+		$content_types = get_post_types( array( 'public' => true ) );
+
+		foreach ( $content_types as $type ) {
+			if ( 'attachment' == $type ) {
+				continue;
+			}
+
+			$object_name = is_post_type_hierarchical( $type ) ? $url : @end( @array_filter( @explode( '/', $url ) ) );
+
+			if ( $wppost = get_page_by_path( $object_name, OBJECT, $type ) ) {
+				break;
+			}
+		}
+
+		return $wppost;
 	}
 
 	public function views_shortcode( $atts = array(), $content = '' ) {
