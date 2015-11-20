@@ -510,32 +510,33 @@ class GA_Top_Content {
 	}
 
 	public function make_request( $params, $context = '' ) {
-		if ( ! class_exists( 'Yoast_Google_Analytics' ) ) {
+		if ( ! class_exists( 'Yoast_Google_Analytics' ) || ! defined( 'GAWP_FILE' ) ) {
+			trigger_error( 'GATC: ' . __( 'No requests can be made because Google Analytics Top Content Widget requires the Google Analytics by Yoast plugin to be installed and activated.', 'top-google-posts' ), E_USER_WARNING );
 			return;
 		}
 
-		if ( ! is_admin() ) {
-			$path = dirname( GAWP_FILE );
-			$files_to_include = array(
-				'Yoast_Google_CacheParser'      => '/vendor/yoast/api-libs/google/io/Google_CacheParser.php',
-				'Yoast_Google_Utils'            => '/vendor/yoast/api-libs/google/service/Google_Utils.php',
-				'Yoast_Google_HttpRequest'      => '/vendor/yoast/api-libs/google/io/Google_HttpRequest.php',
-				'Yoast_Google_IO'               => '/vendor/yoast/api-libs/google/io/Google_IO.php',
-				'Yoast_Google_WPIO'             => '/vendor/yoast/api-libs/google/io/Google_WPIO.php',
-				'Yoast_Google_Auth'             => '/vendor/yoast/api-libs/google/auth/Google_Auth.php',
-				'Yoast_Google_OAuth2'           => '/vendor/yoast/api-libs/google/auth/Google_OAuth2.php',
-				'Yoast_Google_Cache'            => '/vendor/yoast/api-libs/google/cache/Google_Cache.php',
-				'Yoast_Google_WPCache'          => '/vendor/yoast/api-libs/google/cache/Google_WPCache.php',
-				'Yoast_Google_Client'           => '/vendor/yoast/api-libs/google/Google_Client.php',
-				'Yoast_Google_Analytics_Client' => '/vendor/yoast/api-libs/googleanalytics/class-google-analytics-client.php',
-			);
+		$path = dirname( GAWP_FILE );
+		$files_to_include = array(
+			'Yoast_Google_CacheParser'      => '/vendor/yoast/api-libs/google/io/Google_CacheParser.php',
+			'Yoast_Google_Utils'            => '/vendor/yoast/api-libs/google/service/Google_Utils.php',
+			'Yoast_Google_HttpRequest'      => '/vendor/yoast/api-libs/google/io/Google_HttpRequest.php',
+			'Yoast_Google_IO'               => '/vendor/yoast/api-libs/google/io/Google_IO.php',
+			'Yoast_Google_WPIO'             => '/vendor/yoast/api-libs/google/io/Google_WPIO.php',
+			'Yoast_Google_Auth'             => '/vendor/yoast/api-libs/google/auth/Google_Auth.php',
+			'Yoast_Google_OAuth2'           => '/vendor/yoast/api-libs/google/auth/Google_OAuth2.php',
+			'Yoast_Google_Cache'            => '/vendor/yoast/api-libs/google/cache/Google_Cache.php',
+			'Yoast_Google_WPCache'          => '/vendor/yoast/api-libs/google/cache/Google_WPCache.php',
+			'Yoast_Google_Client'           => '/vendor/yoast/api-libs/google/Google_Client.php',
+			'Yoast_Google_Analytics_Client' => '/vendor/yoast/api-libs/googleanalytics/class-google-analytics-client.php',
+		);
 
-			if ( version_compare( GAWP_VERSION, '5.4.3' ) >= 0 ) {
-				unset( $files_to_include['Yoast_Google_Analytics_Client'] );
-				$files_to_include['Yoast_Api_Google_Client'] = '/vendor/yoast/api-libs/class-api-google-client.php';
-			}
+		if ( version_compare( GAWP_VERSION, '5.4.3' ) >= 0 ) {
+			unset( $files_to_include['Yoast_Google_Analytics_Client'] );
+			$files_to_include['Yoast_Api_Google_Client'] = '/vendor/yoast/api-libs/class-api-google-client.php';
+		}
 
-			foreach ( $files_to_include as $class => $file ) {
+		foreach ( $files_to_include as $class => $file ) {
+			if ( ! is_admin() || ! class_exists( $class, true ) ) {
 				require_once $path . $file;
 			}
 		}
