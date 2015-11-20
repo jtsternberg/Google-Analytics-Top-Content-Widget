@@ -199,7 +199,7 @@ If you were using the shortcode and it broke, you will need to switch to using t
 == Upgrade Notice ==
 
 = 1.6.7 =
-* Fixes "PHP Fatal error: Class 'Yoast_Api_Google_Client' not found" errors when trying to save posts with the shortcode.
+* Fixes "PHP Fatal error: Class 'Yoast_Api_Google_Client' not found" errors when trying to save posts with the shortcode. [Support thread](https://wordpress.org/support/topic/gatcw-plugin-shortcodes-cause-error-500?replies=9#post-7686527).
 
 = 1.6.6 =
 * Use `url_to_postid()` to properly fetch a post ID from a url. [Support thread](https://wordpress.org/support/topic/gatcw-plugin-posts-not-displayed-when-permalinks-do-not-contain-post-slug).
