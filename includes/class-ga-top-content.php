@@ -340,7 +340,7 @@ class GA_Top_Content {
 				}
 			}
 
-			$list .= apply_filters( 'gtc_list_item', sprintf( $this->list_item_format(), $thumb, $url, $title ), $page, $wppost, $counter, $title, $url, $thumb );
+			$list .= apply_filters( 'gtc_list_item', sprintf( $this->list_item_format(), $thumb, $url, $title, $counter ), $page, $wppost, $counter, $title, $url, $thumb );
 
 			$counter++;
 
