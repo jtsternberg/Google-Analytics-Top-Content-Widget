@@ -236,9 +236,14 @@ class GA_Top_Content {
 
 		foreach ( $pages as $page ) {
 			$url = $page['path'];
-			// Url is index and we don't want the homepage, skip
-			if ( $url == '/' && ! in_array( $atts['showhome'], array( 'no', '0', 0, false ), true ) ) {
-				continue;
+			$show_home_values = array( '0', 0, 'yes', 'true', true );
+			$show_home = in_array( $atts['showhome'], $show_home_values, true );
+
+			if ( ! $show_home ) {
+				// Url is index (or paginated) and we don't want the homepage, skip
+				if ( '/' === $url || preg_match( '~^\/[1-9]+\/?$~', $url ) ) {
+					continue;
+				}
 			}
 
 			// We need to check if there are duplicates with query vars
