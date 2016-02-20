@@ -244,9 +244,9 @@ class GA_Top_Content {
 			// We need to check if there are duplicates with query vars
 			$path = pathinfo( $url );
 			$query_var = strpos( $url, '?' );
-			$default_permalink = strpos( $path['filename'], '?p=' );
+			$is_default_permalink = false !== strpos( $path['filename'], '?p=' );
 			// Strip the query var off the url (if not using default permalinks)
-			$url = ( ! ( isset( $atts['keep_query_vars'] ) && $atts['keep_query_vars'] ) && false !== $query_var && false === $default_permalink )
+			$url = ( ! ( isset( $atts['keep_query_vars'] ) && $atts['keep_query_vars'] ) && false !== $query_var && ! $is_default_permalink )
 				? substr( $url, 0, $query_var )
 				: $url;
 
@@ -264,7 +264,7 @@ class GA_Top_Content {
 
 			if ( ! in_array( 'allcontent', $atts['contentfilter'] ) || '' != $atts['catlimit'] || '' != $atts['catfilter'] || '' != $atts['postfilter'] || ! empty( $atts['thumb_size'] ) ) {
 
-				$wppost = $this->get_wp_post_object( $url, $default_permalink, $path );
+				$wppost = $this->get_wp_post_object( $url, $is_default_permalink, $path );
 
 				if ( $atts['contentfilter'] && ! in_array( 'allcontent', $atts['contentfilter'] ) ) {
 					if ( empty( $wppost ) ) {
@@ -364,11 +364,11 @@ class GA_Top_Content {
 		return $transuse . $list . $transuse;
 	}
 
-	public function get_wp_post_object( $url, $default_permalink, $path ) {
+	public function get_wp_post_object( $url, $is_default_permalink, $path ) {
 		$post_id = 0;
 
 		// Check default permalinks
-		if ( false !== $default_permalink ) {
+		if ( $is_default_permalink ) {
 			$post_id = (int) str_replace( '?p=', '', $path['filename'] );
 		}
 
