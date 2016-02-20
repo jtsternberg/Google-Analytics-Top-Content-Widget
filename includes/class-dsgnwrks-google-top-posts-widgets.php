@@ -96,8 +96,7 @@ class Dsgnwrks_Google_Top_Posts_Widgets extends WP_Widget {
 		}
 		?>
 
-
-		<?php if ( 'allcontent' == $instance['contentfilter'] || 'post' == $instance['contentfilter'] ) { ?>
+		<?php if ( in_array( 'allcontent', $instance['contentfilter'], 1 ) || in_array( 'post', $instance['contentfilter'], 1 ) ) { ?>
 
 			<p><label><b>Limit Listings To Category:</b><br/>To limit to specific categories, place comma separated category ID's.<input class="widefat" style="margin-top:2px;" name="<?php echo $this->get_field_name( 'catlimit' ); ?>"  type="text" value="<?php echo esc_attr( $catlimit ); ?>" /></label></p>
 
