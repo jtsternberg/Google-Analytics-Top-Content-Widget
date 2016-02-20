@@ -10,7 +10,7 @@
 **Requires at least:** 3.0  
 **Tested up to:** 4.4  
 **Stable tag:** trunk	  
-**Version:** 1.6.7  
+**Version:** 1.6.8  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -109,6 +109,10 @@ If you run into a problem or have a question, contact me ([contact form](http://
 
 
 ## Changelog
+
+### 1.6.8
+* Tweak logic for homepage checking, and also check for paginated homepage entries.
+* Fix the category limit filter in the widget settings.
 
 ### 1.6.7
 * Fixes "PHP Fatal error: Class 'Yoast_Api_Google_Client' not found" errors when trying to save posts with the shortcode. [Support thread](https://wordpress.org/support/topic/gatcw-plugin-shortcodes-cause-error-500?replies=9#post-7686527).
