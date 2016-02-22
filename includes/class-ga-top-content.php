@@ -380,6 +380,10 @@ class GA_Top_Content {
 		// Check if we can get a post ID from the url
 		$post_id = $post_id ? $post_id : url_to_postid( $url );
 
+		if ( empty( $post_id ) ) {
+			return null;
+		}
+
 		// If we have a post ID, attempt to get the post object
 		$wppost = get_post( $post_id );
 
