@@ -8,9 +8,9 @@
 **Author URI:** http://dsgnwrks.pro  
 **Donate link:** http://j.ustin.co/rYL89n  
 **Requires at least:** 3.0  
-**Tested up to:** 4.4  
+**Tested up to:** 4.4.2  
 **Stable tag:** trunk	  
-**Version:** 1.6.8  
+**Version:** 1.6.9  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,6 +94,12 @@ If you were using the shortcode and it broke, you will need to switch to using t
 ### Can I display the analytics count next to the title?
 * Yes, use this gist: [https://gist.github.com/jtsternberg/449b7ea79fd5ad460143](https://gist.github.com/jtsternberg/449b7ea79fd5ad460143)
 
+### Can I blacklist certain pages/urls from showing?
+* Yes, use this gist: [https://gist.github.com/jtsternberg/5d00f2a9c541906e8534](https://gist.github.com/jtsternberg/5d00f2a9c541906e8534)
+
+### Can I blacklist certain pages/urls from showing if the path begins with "/exclude/"?
+* Yes, use this gist: [https://gist.github.com/jtsternberg/d9013a849bce297c5bff](https://gist.github.com/jtsternberg/d9013a849bce297c5bff)
+
 ### ??
 If you run into a problem or have a question, contact me ([contact form](http://j.ustin.co/scbo43) or [@jtsternberg on twitter](http://j.ustin.co/wUfBD3)). I'll add them here.
 
@@ -109,6 +115,9 @@ If you run into a problem or have a question, contact me ([contact form](http://
 
 
 ## Changelog
+
+### 1.6.9
+* Fix the issue which allowed some content through which should have been disallowed by the content filter. Now if the content filter is used at all and `url_to_postid` fails, the page will be excluded in the results.
 
 ### 1.6.8
 * Tweak logic for homepage checking, and also check for paginated homepage entries.
