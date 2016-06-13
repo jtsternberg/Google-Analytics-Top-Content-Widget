@@ -100,6 +100,9 @@ If you were using the shortcode and it broke, you will need to switch to using t
 ### Can I blacklist certain pages/urls from showing if the path begins with "/exclude/"?
 * Yes, use this gist: [https://gist.github.com/jtsternberg/d9013a849bce297c5bff](https://gist.github.com/jtsternberg/d9013a849bce297c5bff)
 
+### I also want to add the page excerpt to the list item. Is that possible?
+* Yes, use this gist: [https://gist.github.com/jtsternberg/65f581cc1c3788aa2654adbb357fe88c](https://gist.github.com/jtsternberg/65f581cc1c3788aa2654adbb357fe88c)
+
 ### ??
 If you run into a problem or have a question, contact me ([contact form](http://j.ustin.co/scbo43) or [@jtsternberg on twitter](http://j.ustin.co/wUfBD3)). I'll add them here.
 
