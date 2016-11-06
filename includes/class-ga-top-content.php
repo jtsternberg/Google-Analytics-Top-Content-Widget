@@ -150,12 +150,22 @@ class GA_Top_Content {
 	}
 
 	public function message_two() {
-		return sprintf(
+		$url = sprintf(
 			'<p>%s</p><p><a href="%s">%s</a>.</p>',
-			__( 'You must first login to Google Analytics in the "Google Analytics by MonsterInsights" settings for this widget to work.', 'gatpw' ),
+			__( 'You must first authenticate to Google Analytics in the "Google Analytics by MonsterInsights" settings for this widget to work.', 'gatpw' ),
 			admin_url( 'admin.php?page=yst_ga_settings' ),
 			__( 'Go to plugin settings', 'gatpw' )
 		);
+		if ( defined( 'MONSTERINSIGHTS_VERSION' ) ) {
+			$url = sprintf(
+				'<p>%s</p><p><a href="%s">%s</a>.</p>',
+				__( 'You must first authenticate to Google Analytics in the "Google Analytics by MonsterInsights" settings for this widget to work.', 'gatpw' ),
+				admin_url( 'admin.php?page=monsterinsights_settings' ),
+				__( 'Go to plugin settings', 'gatpw' )
+			);
+		}
+
+		return $url;
 	}
 
 	public function change_link_text( $complete_link_text ) {
@@ -163,7 +173,11 @@ class GA_Top_Content {
 	}
 
 	public function change_link_url( $complete_link_url ) {
-		return admin_url( 'admin.php?page=yst_ga_settings' );
+		$url = admin_url( 'admin.php?page=yst_ga_settings' );
+		if ( defined( 'MONSTERINSIGHTS_VERSION' ) ) {
+			$url = admin_url( 'admin.php?page=monsterinsights_settings' );
+		}
+		return $url;
 	}
 
 	public function top_content_shortcode( $atts = array(), $context = 'shortcode', $number = 0 ) {
