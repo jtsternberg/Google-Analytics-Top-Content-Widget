@@ -3,7 +3,7 @@
 **Contributors:** jtsternberg  
 **Plugin Name:**  Google Analytics Top Content Widget  
 **Plugin URI:** http://j.ustin.co/yWTtmy  
-**Tags:** google analytics, google, top posts, top content, display rank, page rank, page views, widget, sidebar, sidebar widget, Google Analytics by Yoast, shortcode, site stats, statistics, stats  
+**Tags:** google analytics, google, top posts, top content, display rank, page rank, page views, widget, sidebar, sidebar widget, Google Analytics by MonsterInsights, shortcode, site stats, statistics, stats  
 **Author:** Jtsternberg  
 **Author URI:** http://dsgnwrks.pro  
 **Donate link:** http://j.ustin.co/rYL89n  
@@ -14,13 +14,13 @@
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
-Widget and shortcode to display top content according to Google Analytics. ("Google Analytics by Yoast" plugin required)
+Widget and shortcode to display top content according to Google Analytics. ("Google Analytics by MonsterInsights" plugin required)
 
 ## Description ##
 
 Adds a widget that allows you to display top pages/posts in your sidebar based on google analytics data.
 
-Requires a Google Analytics account, and the plugin, ["Google Analytics by Yoast"](http://wordpress.org/extend/plugins/google-analytics-dashboard/) (which will be auto-installed by this plugin, thanks to [@jthomasgriffin](http://twitter.com/jthomasgriffin)'s awesome [TGM Plugin Activation Class](http://j.ustin.co/yZPKXw)).
+Requires a Google Analytics account, and the plugin, ["Google Analytics by MonsterInsights"](http://wordpress.org/extend/plugins/google-analytics-dashboard/) (which will be auto-installed by this plugin, thanks to [@jthomasgriffin](http://twitter.com/jthomasgriffin)'s awesome [TGM Plugin Activation Class](http://j.ustin.co/yZPKXw)).
 
 Also includes a shortcode to display the top content in your posts and pages.
 
@@ -76,8 +76,8 @@ function gtc_add_viewcount_title( $pages ) {
 
 1. Upload the `google-analytics-top-posts-widget` directory to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Plugin will prompt you to install the "Google Analytics by Yoast" plugin. Install and activate it.
-4. Use the "Google Analytics by Yoast" plugin's settings page to login to your google analytics account.
+3. Plugin will prompt you to install the "Google Analytics by MonsterInsights" plugin. Install and activate it.
+4. Use the "Google Analytics by MonsterInsights" plugin's settings page to authenticate to your google analytics account.
 5. On the widgets page, drag the "Google Analytics Top Posts" widget to the desired sidebar.
 6. Update the widget settings and save.
 
@@ -127,7 +127,7 @@ If you run into a problem or have a question, contact me ([contact form](http://
 * Fix the category limit filter in the widget settings.
 
 ### 1.6.7
-* Fixes "PHP Fatal error: Class 'Yoast_Api_Google_Client' not found" errors when trying to save posts with the shortcode. [Support thread](https://wordpress.org/support/topic/gatcw-plugin-shortcodes-cause-error-500?replies=9#post-7686527).
+* Fixes "PHP Fatal error: Class 'MonsterInsights_Api_Google_Client' not found" errors when trying to save posts with the shortcode. [Support thread](https://wordpress.org/support/topic/gatcw-plugin-shortcodes-cause-error-500?replies=9#post-7686527).
 
 ### 1.6.6
 * Use `url_to_postid()` to properly fetch a post ID from a url. [Support thread](https://wordpress.org/support/topic/gatcw-plugin-posts-not-displayed-when-permalinks-do-not-contain-post-slug).
@@ -139,7 +139,7 @@ If you run into a problem or have a question, contact me ([contact form](http://
 * Bug fix: Upgrade [TGM-Plugin-Activation](https://github.com/TGMPA/TGM-Plugin-Activation) to fix [an occasional issue](https://github.com/TGMPA/TGM-Plugin-Activation/issues/455#issuecomment-129684199).
 
 ### 1.6.3
-* Bug fix: "Google Analytics by Yoast" version 5.4.3 changed the name/location of their Google Analytics client class, so need to compensate
+* Bug fix: "Google Analytics by MonsterInsights" version 5.4.3 changed the name/location of their Google Analytics client class, so need to compensate
 
 ### 1.6.2
 * Update TGM-Plugin-Activation library.
@@ -149,7 +149,7 @@ If you run into a problem or have a question, contact me ([contact form](http://
 * New filters, 'gtc_analytics_request_params', and "gtc_analytics_{$context}_request_params" for modifying the request arguments to the Google Analytics API. (for things [like this](https://wordpress.org/support/topic/uniques-instead-of-raw-pageviews?replies=1))
 
 ### 1.6.0
-* Replaced dependency on 'Google Analytics Dashboard' plugin with a dependency on 'Google Analytics by Yoast'
+* Replaced dependency on 'Google Analytics Dashboard' plugin with a dependency on 'Google Analytics by MonsterInsights'
 * New filters, 'gtc_list_format' and 'gtc_list_item_format' for modifying the format of the list/list-item output
 
 ### 1.5.7

@@ -76,7 +76,7 @@ Feel free to [fork or contribute on Github](https://github.com/jtsternberg/Googl
 1. Upload the `google-analytics-top-posts-widget` directory to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Plugin will prompt you to install the "Google Analytics by MonsterInsights" plugin. Install and activate it.
-4. Use the "Google Analytics by MonsterInsights" plugin's settings page to login to your google analytics account.
+4. Use the "Google Analytics by MonsterInsights" plugin's settings page to authenticate to your google analytics account.
 5. On the widgets page, drag the "Google Analytics Top Posts" widget to the desired sidebar.
 6. Update the widget settings and save.
 
