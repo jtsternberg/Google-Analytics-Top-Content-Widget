@@ -273,7 +273,13 @@ class GA_Top_Content {
 			$title     = $this->maybe_clean_title( $atts, $title );
 			$list_item = sprintf( $this->list_item_format(), $thumb, $this->item['url'], $title, $this->counter );
 
-			$list .= apply_filters( 'gtc_list_item', $list_item, $this->item, $this->item['post'], $this->counter, $title, $this->item['url'], $thumb );
+			$list_item = apply_filters( 'gtc_list_item', $list_item, $this->item, $this->item['post'], $this->counter, $title, $this->item['url'], $thumb );
+
+			if ( ! $list_item ) {
+				continue;
+			}
+
+			$list .= $list_item;
 
 			$this->counter++;
 
