@@ -3,7 +3,7 @@
 **Contributors:** jtsternberg  
 **Plugin Name:**  Google Analytics Top Content Widget  
 **Plugin URI:** http://j.ustin.co/yWTtmy  
-**Tags:** google analytics, google, top posts, top content, display rank, page rank, page views, widget, sidebar, sidebar widget, Google Analytics by Yoast, shortcode, site stats, statistics, stats  
+**Tags:** google analytics, google, top posts, top content, display rank, page rank, page views, widget, sidebar, sidebar widget, Google Analytics by MonsterInsights, shortcode, site stats, statistics, stats  
 **Author:** Jtsternberg  
 **Author URI:** http://dsgnwrks.pro  
 **Donate link:** http://j.ustin.co/rYL89n  
@@ -14,13 +14,13 @@
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
-Widget and shortcode to display top content according to Google Analytics. ("Google Analytics by Yoast" plugin required)
+Widget and shortcode to display top content according to Google Analytics. ("Google Analytics by MonsterInsights" plugin required)
 
 ## Description ##
 
 Adds a widget that allows you to display top pages/posts in your sidebar based on google analytics data.
 
-Requires a Google Analytics account, and the plugin, ["Google Analytics by Yoast"](http://wordpress.org/extend/plugins/google-analytics-dashboard/) (which will be auto-installed by this plugin, thanks to [@jthomasgriffin](http://twitter.com/jthomasgriffin)'s awesome [TGM Plugin Activation Class](http://j.ustin.co/yZPKXw)).
+Requires a Google Analytics account, and the plugin, ["Google Analytics by MonsterInsights"](https://wordpress.org/plugins/google-analytics-for-wordpress/) (which will be auto-installed by this plugin, thanks to [@jthomasgriffin](http://twitter.com/jthomasgriffin)'s awesome [TGM Plugin Activation Class](http://j.ustin.co/yZPKXw)).
 
 Also includes a shortcode to display the top content in your posts and pages.
 
@@ -76,8 +76,8 @@ add_filter( 'gtc_pages_filter', 'gtc_add_viewcount_title' );
 
 1. Upload the `google-analytics-top-posts-widget` directory to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Plugin will prompt you to install the "Google Analytics by Yoast" plugin. Install and activate it.
-4. Use the "Google Analytics by Yoast" plugin's settings page to login to your google analytics account.
+3. Plugin will prompt you to install the "Google Analytics by MonsterInsights" plugin. Install and activate it.
+4. Use the "Google Analytics by MonsterInsights" plugin's settings page to authenticate to your google analytics account.
 5. On the widgets page, drag the "Google Analytics Top Posts" widget to the desired sidebar.
 6. Update the widget settings and save.
 
