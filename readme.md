@@ -125,6 +125,7 @@ If you run into a problem or have a question, contact me ([contact form](http://
 * By default, filter out posts which are not published (e.g. drafts, pending). Props [@pmtarantino](https://github.com/pmtarantino), [#15](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/15).
 * Support for non-ascii urls in `google_analytics_views` shortcode, and new filter, `gtc_views_shortcode_ga_filters_param`. Props [@entr](https://github.com/entr), [#21](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/21).
 * New filter, `gtc_should_display_item`, to override whether an item should be added to the list.
+* No longer output an empty link when thumbnails are enabled, but not found.
 
 ### 1.6.9
 * Fix the issue which allowed some content through which should have been disallowed by the content filter. Now if the content filter is used at all and `url_to_postid` fails, the page will be excluded in the results.

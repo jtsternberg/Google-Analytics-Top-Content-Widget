@@ -373,13 +373,23 @@ class GA_Top_Content {
 		}
 
 		$class = 'attachment-'. $atts['thumb_size'] .' wp-post-image';
+		$maybe_inline_style = false;
+
 		if ( ! empty( $atts['thumb_alignment'] ) ) {
 			$class .= ' '. $atts['thumb_alignment'];
-			$inline_style = true;
+			$maybe_inline_style = true;
 		}
 
 		$thumb = get_the_post_thumbnail( $this->item['post']->ID, $atts['thumb_size'], array( 'class' => $class ) );
-		$thumb_link = sprintf( '<a class="gtc-content-thumb" href="%s">%s</a>', $this->item['url'], $thumb );
+
+		$thumb_link = '';
+		if ( $thumb ) {
+			$thumb_link = sprintf( '<a class="gtc-content-thumb" href="%s">%s</a>', $this->item['url'], $thumb );
+			if ( $maybe_inline_style ) {
+				$inline_style = true;
+			}
+		}
+
 		$thumb = apply_filters( 'gtc_list_item_thumb', $thumb_link, $this->item['url'], $thumb, $this->item['post'], $this->counter, $title, $this->item['url'], $atts );
 
 		return compact( 'thumb', 'inline_style' );
