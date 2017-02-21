@@ -1,19 +1,19 @@
-=== Plugin Name ===  
+=== Plugin Name ===
 Google Analytics Top Content Widget
 
 Contributors: jtsternberg
-Plugin Name:  Google Analytics Top Content Widget  
-Plugin URI: http://j.ustin.co/yWTtmy  
-Tags: google analytics, google, top posts, top content, display rank, page rank, page views, widget, sidebar, sidebar widget, Google Analytics by Yoast, shortcode, site stats, statistics, stats  
-Author: Jtsternberg  
-Author URI: http://dsgnwrks.pro  
-Donate link: http://j.ustin.co/rYL89n  
-Requires at least: 3.0  
-Tested up to: 4.4.2  
-Stable tag: trunk  
-Version: 1.6.9  
-License: GPLv2 or later  
-License URI: http://www.gnu.org/licenses/gpl-2.0.html  
+Plugin Name:  Google Analytics Top Content Widget
+Plugin URI: http://j.ustin.co/yWTtmy
+Tags: google analytics, google, top posts, top content, display rank, page rank, page views, widget, sidebar, sidebar widget, Google Analytics by Yoast, shortcode, site stats, statistics, stats
+Author: Jtsternberg
+Author URI: http://dsgnwrks.pro
+Donate link: http://j.ustin.co/rYL89n
+Requires at least: 3.0
+Tested up to: 4.4.2
+Stable tag: trunk
+Version: 1.7.0
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Widget and shortcode to display top content according to Google Analytics. ("Google Analytics by Yoast" plugin required)
 
@@ -113,6 +113,10 @@ If you run into a problem or have a question, contact me ([contact form](http://
 
 == Changelog ==
 
+= 1.7.0 =
+* Pass thumbnail to `gtc_list_item` filter and counter to the `list_item_format` `sprintf`. Props [@chibani](https://github.com/chibani), [#12](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/12).
+* By default, filter out posts which are not published (e.g. drafts, pending). Props [@pmtarantino](https://github.com/pmtarantino), [#15](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/15).
+
 = 1.6.9 =
 * Fix the issue which allowed some content through which should have been disallowed by the content filter. Now if the content filter is used at all and `url_to_postid` fails, the page will be excluded in the results.
 
@@ -137,7 +141,7 @@ If you run into a problem or have a question, contact me ([contact form](http://
 
 = 1.6.2 =
 * Update TGM-Plugin-Activation library.
-* Cause shortcode caches to be flushed when the post is updated. 
+* Cause shortcode caches to be flushed when the post is updated.
 
 = 1.6.1 =
 * New filters, 'gtc_analytics_request_params', and "gtc_analytics_{$context}_request_params" for modifying the request arguments to the Google Analytics API. (for things [like this](https://wordpress.org/support/topic/uniques-instead-of-raw-pageviews?replies=1))
@@ -214,6 +218,10 @@ If you were using the shortcode and it broke, you will need to switch to using t
 
 == Upgrade Notice ==
 
+= 1.7.0 =
+* Pass thumbnail to `gtc_list_item` filter and counter to the `list_item_format` `sprintf`. Props [@chibani](https://github.com/chibani), [#12](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/12).
+* By default, filter out posts which are not published (e.g. drafts, pending). Props [@pmtarantino](https://github.com/pmtarantino), [#15](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/15).
+
 = 1.6.9 =
 * Fix the issue which allowed some content through which should have been disallowed by the content filter. Now if the content filter is used at all and `url_to_postid` fails, the page will be excluded in the results.
 
@@ -238,7 +246,7 @@ If you were using the shortcode and it broke, you will need to switch to using t
 
 = 1.6.2 =
 * Update TGM-Plugin-Activation library.
-* Cause shortcode caches to be flushed when the post is updated. 
+* Cause shortcode caches to be flushed when the post is updated.
 
 = 1.6.1 =
 * New filters, 'gtc_analytics_request_params', and "gtc_analytics_{$context}_request_params" for modifying the request arguments to the Google Analytics API. (for things [like this](https://wordpress.org/support/topic/uniques-instead-of-raw-pageviews?replies=1))

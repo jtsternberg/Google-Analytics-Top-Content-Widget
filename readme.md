@@ -10,7 +10,7 @@
 **Requires at least:** 3.0  
 **Tested up to:** 4.4.2  
 **Stable tag:** trunk	  
-**Version:** 1.6.9  
+**Version:** 1.7.0  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -118,6 +118,10 @@ If you run into a problem or have a question, contact me ([contact form](http://
 
 
 ## Changelog
+
+### 1.7.0
+* Pass thumbnail to `gtc_list_item` filter and counter to the `list_item_format` `sprintf`. Props [@chibani](https://github.com/chibani), [#12](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/12).
+* By default, filter out posts which are not published (e.g. drafts, pending). Props [@pmtarantino](https://github.com/pmtarantino), [#15](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/15).
 
 ### 1.6.9
 * Fix the issue which allowed some content through which should have been disallowed by the content filter. Now if the content filter is used at all and `url_to_postid` fails, the page will be excluded in the results.
