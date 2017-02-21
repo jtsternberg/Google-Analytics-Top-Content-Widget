@@ -114,10 +114,11 @@ If you run into a problem or have a question, contact me ([contact form](http://
 == Changelog ==
 
 = 1.7.0 =
+* Update to support MonsterInsights > 6.0. Props [@chriscct7](https://github.com/chriscct7), [#18](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/18).
 * Pass thumbnail to `gtc_list_item` filter and counter to the `list_item_format` `sprintf`. Props [@chibani](https://github.com/chibani), [#12](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/12).
 * By default, filter out posts which are not published (e.g. drafts, pending). Props [@pmtarantino](https://github.com/pmtarantino), [#15](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/15).
-* Support for non-ascii urls in `google_analytics_views` shortcode. Props [@entr](https://github.com/entr), [#21](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/21).
-* Update to support MonsterInsights > 6.0. Props [@chriscct7](https://github.com/chriscct7), [#18](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/18).
+* Support for non-ascii urls in `google_analytics_views` shortcode, and new filter, `gtc_views_shortcode_ga_filters_param`. Props [@entr](https://github.com/entr), [#21](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/21).
+* New filter, `gtc_should_display_item`, to override whether an item should be added to the list.
 
 = 1.6.9 =
 * Fix the issue which allowed some content through which should have been disallowed by the content filter. Now if the content filter is used at all and `url_to_postid` fails, the page will be excluded in the results.
@@ -221,10 +222,11 @@ If you were using the shortcode and it broke, you will need to switch to using t
 == Upgrade Notice ==
 
 = 1.7.0 =
+* Update to support MonsterInsights > 6.0. Props [@chriscct7](https://github.com/chriscct7), [#18](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/18).
 * Pass thumbnail to `gtc_list_item` filter and counter to the `list_item_format` `sprintf`. Props [@chibani](https://github.com/chibani), [#12](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/12).
 * By default, filter out posts which are not published (e.g. drafts, pending). Props [@pmtarantino](https://github.com/pmtarantino), [#15](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/15).
-* Support for non-ascii urls in `google_analytics_views` shortcode. Props [@entr](https://github.com/entr), [#21](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/21).
-* Update to support MonsterInsights > 6.0. Props [@chriscct7](https://github.com/chriscct7), [#18](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/18).
+* Support for non-ascii urls in `google_analytics_views` shortcode, and new filter, `gtc_views_shortcode_ga_filters_param`. Props [@entr](https://github.com/entr), [#21](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/21).
+* New filter, `gtc_should_display_item`, to override whether an item should be added to the list.
 
 = 1.6.9 =
 * Fix the issue which allowed some content through which should have been disallowed by the content filter. Now if the content filter is used at all and `url_to_postid` fails, the page will be excluded in the results.
