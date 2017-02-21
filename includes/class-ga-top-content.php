@@ -446,20 +446,26 @@ class GA_Top_Content {
 
 			$permalink = get_permalink( $atts['post_id'] );
 			$url_data  = parse_url( $permalink );
-			$link_uri  = urldecode( $url_data['path'] ) . ( isset( $url_data['query'] ) ? ( '?' . $url_data['query'] ) : '' );
+
+			$link_uri  = urldecode( $url_data['path'] );
+			if ( ! empty( $url_data['query'] ) ) {
+				$link_uri .= '?' . $url_data['query'];
+			}
+
 			$link_uri  = function_exists( 'mb_substr' ) ? mb_substr( $link_uri, -20 ) : substr( $link_uri, -20 );
 
 			if ( empty( $link_uri ) || 'draft' == get_post_status( $atts['post_id'] ) ) {
 				return '';
 			}
 
+			$filters = sprintf( 'ga:pagePath=~%s.*', $link_uri );
+
 			/**
 			 * Build GA $filters param and allow filtering
 			 *
 			 * @var string
 			 */
-			$filters = sprintf( 'ga:pagePath=~%s.*', $link_uri );
-			$filters = apply_filters( 'gtc_views_shortcode_ga_filters_param', $filters, $atts );
+			$filters = apply_filters( 'gtc_views_shortcode_ga_filters_param', $filters, $atts, $link_uri );
 
 			$params = array(
 				'ids'         => 'ga:'. $this->id(),
