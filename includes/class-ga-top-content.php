@@ -324,6 +324,9 @@ class GA_Top_Content {
 						continue;
 					}
 				}
+				if($wppost->post_status != 'publish'){
+					continue;
+				}
 			}
 
 			$title = stripslashes( wp_filter_post_kses( apply_filters( 'gtc_page_title', $page['name'], $page, $wppost ) ) );
