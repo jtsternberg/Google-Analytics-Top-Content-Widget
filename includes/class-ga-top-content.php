@@ -6,6 +6,8 @@ class GA_Top_Content {
 	private $id = null;
 	private $list_format = '';
 	private $list_item_format = '';
+	private $item = array();
+	private $counter = 0;
 
 	/**
 	 * Creates or returns an instance of this class.
@@ -231,128 +233,35 @@ class GA_Top_Content {
 			return $list;
 		}
 
-		$urlarray = array();
-		$counter = 1;
+		// $urlarray = array();
+		$this->counter = 1;
 
-		foreach ( $pages as $page ) {
-			$url = $page['path'];
-			$show_home_values = array( '0', 0, 'yes', 'true', true );
-			$show_home = in_array( $atts['showhome'], $show_home_values, true );
+		foreach ( $pages as $this->item ) {
 
-			if ( ! $show_home ) {
-				// Url is index (or paginated) and we don't want the homepage, skip
-				if ( '/' === $url || preg_match( '~^\/[1-9]+\/?$~', $url ) ) {
-					continue;
-				}
-			}
+			$should_display = apply_filters( 'gtc_should_display_item', $this->should_display_item( $atts ), $this->item, $atts );
 
-			// We need to check if there are duplicates with query vars
-			$path = pathinfo( $url );
-			$query_var = strpos( $url, '?' );
-			$is_default_permalink = false !== strpos( $path['filename'], '?p=' );
-			// Strip the query var off the url (if not using default permalinks)
-			$url = ( ! ( isset( $atts['keep_query_vars'] ) && $atts['keep_query_vars'] ) && false !== $query_var && ! $is_default_permalink )
-				? substr( $url, 0, $query_var )
-				: $url;
-
-			// Allow modification of the URL
-			$url = apply_filters( 'gtc_page_url', $url );
-
-			// Url already exists? skip it
-			if ( in_array( $url, $urlarray ) ) {
+			// This is not the page you are looking for.
+			if ( false === $should_display ) {
 				continue;
 			}
 
-			$urlarray[] = $url;
-			$wppost = null;
-			$thumb = '';
+			$title      = $this->get_title();
+			$thumb_info = $this->get_thumb_info( $atts, $title );
 
-			if ( ! in_array( 'allcontent', $atts['contentfilter'] ) || '' != $atts['catlimit'] || '' != $atts['catfilter'] || '' != $atts['postfilter'] || ! empty( $atts['thumb_size'] ) ) {
+			$thumb = isset( $thumb_info['thumb'] ) ? $thumb_info['thumb'] : '';
 
-				$wppost = $this->get_wp_post_object( $url, $is_default_permalink, $path );
-
-				if ( $atts['contentfilter'] && ! in_array( 'allcontent', $atts['contentfilter'] ) ) {
-					if ( empty( $wppost ) ) {
-						continue;
-					}
-					if ( ! in_array( $wppost->post_type, $atts['contentfilter'] ) ) {
-						continue;
-					}
-				}
-
-				if ( in_array( 'allcontent', $atts['contentfilter'] ) || in_array( 'post', $atts['contentfilter'] ) ) {
-
-					if ( $atts['catlimit'] != '' ) {
-						$limit_array = array();
-						$catlimits = esc_attr( $atts['catlimit'] );
-						$catlimits = explode( ', ', $catlimits );
-						foreach ( $catlimits as $catlimit ) {
-							if ( in_category( $catlimit, $wppost ) ) {
-								$limit_array[] = $wppost->ID;
-							}
-						}
-						if ( ! in_array( $wppost->ID, $limit_array ) ) {
-							continue;
-						}
-					}
-
-					if ( $atts['catfilter'] != '' ) {
-						$filter_array = array();
-						$catfilters = esc_attr( $atts['catfilter'] );
-						$catfilters = explode( ', ', $catfilters );
-						foreach ( $catfilters as $catfilter ) {
-							if ( in_category( $catfilter, $wppost ) ) {
-								$filter_array[] = $wppost->ID;
-							}
-						}
-						if ( in_array( $wppost->ID, $filter_array ) ) {
-							continue;
-						}
-					}
-				}
-
-				if ( $atts['postfilter'] != '' ) {
-					$postfilter_array = array();
-					$postfilters = esc_attr( $atts['postfilter'] );
-					$postfilters = explode( ', ', $postfilters );
-					foreach ( $postfilters as $postfilter ) {
-						if ( $postfilter == $wppost->ID ) {
-							$postfilter_array[] = $wppost->ID;
-						}
-					}
-					if ( in_array( $wppost->ID, $postfilter_array ) ) {
-						continue;
-					}
-				}
-				if($wppost->post_status != 'publish'){
-					continue;
-				}
+			if ( isset( $thumb_info['inline_style'] ) && $thumb_info['inline_style'] ) {
+				$inline_style = true;
 			}
 
-			$title = stripslashes( wp_filter_post_kses( apply_filters( 'gtc_page_title', $page['name'], $page, $wppost ) ) );
+			$title     = $this->maybe_clean_title( $atts, $title );
+			$list_item = sprintf( $this->list_item_format(), $thumb, $this->item['url'], $title, $this->counter );
 
-			if ( ! empty( $atts['thumb_size'] ) && $wppost && isset( $wppost->ID ) ) {
-				$class = 'attachment-'. $atts['thumb_size'] .' wp-post-image';
-				if ( ! empty( $atts['thumb_alignment'] ) ) {
-					$class .= ' '. $atts['thumb_alignment'];
-					$inline_style = true;
-				}
-				$thumb = get_the_post_thumbnail( $wppost->ID, $atts['thumb_size'], array( 'class' => $class ) );
-				$thumb = apply_filters( 'gtc_list_item_thumb', '<a class="gtc-content-thumb" href="'. $url .'">' . $thumb . '</a>', $url, $thumb, $wppost, $counter, $title, $url, $atts );
-			}
+			$list .= apply_filters( 'gtc_list_item', $list_item, $this->item, $this->item['post'], $this->counter, $title, $this->item['url'], $thumb );
 
-			if ( ! empty( $atts['titleremove'] ) ) {
-				$removes = explode( ',', sanitize_text_field( $atts['titleremove'] ) );
-				foreach ( $removes as $remove ) {
-					$title = str_ireplace( trim( $remove ), '', $title );
-				}
-			}
+			$this->counter++;
 
-			$list .= apply_filters( 'gtc_list_item', sprintf( $this->list_item_format(), $thumb, $url, $title, $counter ), $page, $wppost, $counter, $title, $url, $thumb );
-
-			$counter++;
-
-			if ( $counter > $atts['number'] ) {
+			if ( $this->counter > $atts['number'] ) {
 				break;
 			}
 		}
@@ -364,12 +273,171 @@ class GA_Top_Content {
 			$inline_style_done = true;
 		}
 
-		$list = apply_filters( 'gtc_list_output', $list );
+		$list = apply_filters( 'gtc_list_output', $list, $atts );
 
 		$cache_expiration = apply_filters( 'gtc_top_content_shortcode_cache_expiration', DAY_IN_SECONDS );
 		set_transient( $trans_id, $list, $cache_expiration );
 
 		return $transuse . $list . $transuse;
+	}
+
+	protected function should_display_item( $atts ) {
+		static $urlarray = array();
+
+		$url = $this->item['path'];
+
+		if ( ! $this->should_show_home( $atts ) ) {
+			// Url is index (or paginated) and we don't want the homepage, skip
+			if ( '/' === $url || preg_match( '~^\/[1-9]+\/?$~', $url ) ) {
+				return false;
+			}
+		}
+
+		// We need to check if there are duplicates with query vars
+		$path = pathinfo( $url );
+		$query_var = strpos( $url, '?' );
+		$is_default_permalink = false !== strpos( $path['filename'], '?p=' );
+
+		// Strip the query var off the url (if not using default permalinks)
+		$url = ! $this->has( $atts, 'keep_query_vars' ) && false !== $query_var && ! $is_default_permalink
+			? substr( $url, 0, $query_var )
+			: $url;
+
+		// Allow modification of the URL
+		$url = apply_filters( 'gtc_page_url', $url );
+
+		// Url already exists? skip it
+		if ( in_array( $url, $urlarray ) ) {
+			return false;
+		}
+
+		$urlarray[] = $url;
+		$this->item['url'] = $url;
+		$this->item['post'] = null;
+
+		// If any filters were requested which will require looking up the WP Post object...
+		if (
+			! in_array( 'allcontent', $atts['contentfilter'] )
+			|| '' != $atts['catlimit']
+			|| '' != $atts['catfilter']
+			|| '' != $atts['postfilter']
+			|| ! empty( $atts['thumb_size'] )
+		) {
+			$post = $this->get_wp_post_object( $this->item['url'], $is_default_permalink, $path );
+
+			$this->item['post'] = $this->maybe_filter_by_wp_post_object( $post, $atts );
+
+			if ( false === $this->item['post'] ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	protected function get_title() {
+		return stripslashes( wp_filter_post_kses( apply_filters( 'gtc_page_title', $this->item['name'], $this->item, $this->item['post'] ) ) );
+	}
+
+	protected function maybe_clean_title( $atts, $title ) {
+		if ( ! empty( $atts['titleremove'] ) ) {
+			foreach ( explode( ',', sanitize_text_field( $atts['titleremove'] ) ) as $to_remove ) {
+				$title = str_ireplace( trim( $to_remove ), '', $title );
+			}
+		}
+
+		return $title;
+	}
+
+	protected function get_thumb_info( $atts, $title ) {
+		static $inline_style = false;
+
+		if ( empty( $atts['thumb_size'] ) || empty( $this->item['post']->ID ) ) {
+			return '';
+		}
+
+		$class = 'attachment-'. $atts['thumb_size'] .' wp-post-image';
+		if ( ! empty( $atts['thumb_alignment'] ) ) {
+			$class .= ' '. $atts['thumb_alignment'];
+			$inline_style = true;
+		}
+
+		$thumb = get_the_post_thumbnail( $this->item['post']->ID, $atts['thumb_size'], array( 'class' => $class ) );
+		$thumb_link = sprintf( '<a class="gtc-content-thumb" href="%s">%s</a>', $this->item['url'], $thumb );
+		$thumb = apply_filters( 'gtc_list_item_thumb', $thumb_link, $this->item['url'], $thumb, $this->item['post'], $this->counter, $title, $this->item['url'], $atts );
+
+		return compact( 'thumb', 'inline_style' );
+	}
+
+	protected function maybe_filter_by_wp_post_object( $post, $atts ) {
+		if ( isset( $post->post_status ) && 'publish' !== $post->post_status ) {
+			return false;
+		}
+
+		if ( $atts['contentfilter'] && ! in_array( 'allcontent', $atts['contentfilter'] ) ) {
+			if ( empty( $post ) ) {
+				return false;
+			}
+
+			if ( ! in_array( $post->post_type, $atts['contentfilter'] ) ) {
+				return false;
+			}
+		}
+
+		if ( in_array( 'allcontent', $atts['contentfilter'] ) || in_array( 'post', $atts['contentfilter'] ) ) {
+			if ( empty( $post ) ) {
+				return false;
+			}
+
+			if ( '' != $atts['catlimit'] && ! $this->in_categories( $post, $atts['catlimit'] ) ) {
+				return false;
+			}
+
+			if ( '' != $atts['catfilter'] && $this->in_categories( $post, $atts['catfilter'] ) ) {
+				return false;
+			}
+		}
+
+		if ( '' != $atts['postfilter'] ) {
+			if ( empty( $post ) ) {
+				return false;
+			}
+
+			$postfilters = array_map( 'absint', explode( ', ', esc_attr( $atts['postfilter'] ) ) );
+
+			if ( in_array( absint( $post->ID ), $postfilters, true ) ) {
+				return false;
+			}
+		}
+
+		return $post;
+	}
+
+	protected function in_categories( $post, $filter ) {
+		$cats = explode( ', ', esc_attr( $filter ) );
+		if ( empty( $cats ) ) {
+			return false;
+		}
+
+		foreach ( $cats as $cat ) {
+			if ( in_category( $cat, $post ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	protected function should_show_home( $atts ) {
+		return $this->is_in( $atts, 'show_home', array( '0', 0, 'yes', 'true', true ) );
+	}
+
+	protected function is_in( $atts, $var, $in ) {
+		return isset( $atts[ $var ] ) && in_array( $atts[ $var ], $in, true );
+	}
+
+	protected function has( $atts, $var ) {
+		return isset( $atts[ $var ] ) && $atts[ $var ] ? $atts[ $var ] : false;
 	}
 
 	public function get_wp_post_object( $url, $is_default_permalink, $path ) {
