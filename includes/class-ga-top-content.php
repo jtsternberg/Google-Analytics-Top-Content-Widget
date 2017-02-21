@@ -283,7 +283,7 @@ class GA_Top_Content {
 
 			if ( ! in_array( 'allcontent', $atts['contentfilter'] ) || '' != $atts['catlimit'] || '' != $atts['catfilter'] || '' != $atts['postfilter'] || ! empty( $atts['thumb_size'] ) ) {
 
-				$wppost = $this->get_wp_post_object( $url, $is_default_permalink, $path );
+				$wppost = apply_filters( 'gtc_post', $this->get_wp_post_object( $url, $is_default_permalink, $path ) );
 
 				if ( $atts['contentfilter'] && ! in_array( 'allcontent', $atts['contentfilter'] ) ) {
 					if ( empty( $wppost ) ) {
