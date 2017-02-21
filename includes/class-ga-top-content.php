@@ -252,6 +252,8 @@ class GA_Top_Content {
 
 		foreach ( $pages as $this->item ) {
 
+			$this->item['post'] = null;
+
 			$should_display = apply_filters( 'gtc_should_display_item', $this->should_display_item( $atts ), $this->item, $atts );
 
 			// This is not the page you are looking for.
