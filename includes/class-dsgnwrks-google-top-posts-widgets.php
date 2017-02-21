@@ -20,7 +20,7 @@ class Dsgnwrks_Google_Top_Posts_Widgets extends WP_Widget {
 	// build the widget settings form
 	public function form( $instance ) {
 
-		if ( ! class_exists( 'Yoast_Google_Analytics' ) || ! class_exists( 'MonsterInsights_GA' ) ) {
+		if ( ! defined( 'GAWP_VERSION' ) ) {
 			echo $this->gatc->message_one();
 			echo '<style type="text/css"> #widget-'. $this->id .'-savewidget { display: none !important; } </style>';
 			return;
