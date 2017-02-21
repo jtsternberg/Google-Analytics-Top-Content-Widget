@@ -10,7 +10,7 @@
 **Requires at least:** 3.0  
 **Tested up to:** 4.4.2  
 **Stable tag:** trunk	  
-**Version:** 1.6.9  
+**Version:** 1.7.0  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,18 +57,18 @@ All of the widget options are exactly that.. optional. If you don't include them
 ** [Example using a filter to add view counts after the title](http://wordpress.org/support/topic/top-viewed-content-couple-of-tweeks-needed?replies=9#post-3816989) -
 
 ```php
-add_filter( 'gtc_pages_filter', 'gtc_add_viewcount_title' );
 function gtc_add_viewcount_title( $pages ) {
-
-	if ( !$pages )
-		return false;
-	// loop through the pages
-	foreach ( $pages as $key => $page ) {
-		// and add the page count to the title value
-		$pages[$key]['children']['value'] = $pages[$key]['children']['value'] . ' ['. $pages[$key]['children']['children']['ga:pageviews'] .' Views]';
+	if ( ! empty( $pages ) ) {
+		// loop through the pages
+		foreach ( $pages as $key => $page ) {
+			// and add the page count to the title value
+			$pages[ $key ]['name'] = $pages[ $key ]['name'] . ' ['. $pages[ $key ]['value'] .' Views]';
+		}
 	}
+
 	return $pages;
 }
+add_filter( 'gtc_pages_filter', 'gtc_add_viewcount_title' );
 ```
 
 
@@ -119,6 +119,11 @@ If you run into a problem or have a question, contact me ([contact form](http://
 
 ## Changelog
 
+### 1.7.0
+* Pass thumbnail to `gtc_list_item` filter and counter to the `list_item_format` `sprintf`. Props [@chibani](https://github.com/chibani), [#12](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/12).
+* By default, filter out posts which are not published (e.g. drafts, pending). Props [@pmtarantino](https://github.com/pmtarantino), [#15](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/15).
+* Support for non-ascii urls in `google_analytics_views` shortcode. Props [@entr](https://github.com/entr), [#21](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/21).
+
 ### 1.6.9
 * Fix the issue which allowed some content through which should have been disallowed by the content filter. Now if the content filter is used at all and `url_to_postid` fails, the page will be excluded in the results.
 
@@ -127,7 +132,7 @@ If you run into a problem or have a question, contact me ([contact form](http://
 * Fix the category limit filter in the widget settings.
 
 ### 1.6.7
-* Fixes "PHP Fatal error: Class 'MonsterInsights_Api_Google_Client' not found" errors when trying to save posts with the shortcode. [Support thread](https://wordpress.org/support/topic/gatcw-plugin-shortcodes-cause-error-500?replies=9#post-7686527).
+* Fixes "PHP Fatal error: Class 'Yoast_Api_Google_Client' not found" errors when trying to save posts with the shortcode. [Support thread](https://wordpress.org/support/topic/gatcw-plugin-shortcodes-cause-error-500?replies=9#post-7686527).
 
 ### 1.6.6
 * Use `url_to_postid()` to properly fetch a post ID from a url. [Support thread](https://wordpress.org/support/topic/gatcw-plugin-posts-not-displayed-when-permalinks-do-not-contain-post-slug).
@@ -139,7 +144,7 @@ If you run into a problem or have a question, contact me ([contact form](http://
 * Bug fix: Upgrade [TGM-Plugin-Activation](https://github.com/TGMPA/TGM-Plugin-Activation) to fix [an occasional issue](https://github.com/TGMPA/TGM-Plugin-Activation/issues/455#issuecomment-129684199).
 
 ### 1.6.3
-* Bug fix: "Google Analytics by MonsterInsights" version 5.4.3 changed the name/location of their Google Analytics client class, so need to compensate
+* Bug fix: "Google Analytics by Yoast" version 5.4.3 changed the name/location of their Google Analytics client class, so need to compensate
 
 ### 1.6.2
 * Update TGM-Plugin-Activation library.
@@ -149,7 +154,7 @@ If you run into a problem or have a question, contact me ([contact form](http://
 * New filters, 'gtc_analytics_request_params', and "gtc_analytics_{$context}_request_params" for modifying the request arguments to the Google Analytics API. (for things [like this](https://wordpress.org/support/topic/uniques-instead-of-raw-pageviews?replies=1))
 
 ### 1.6.0
-* Replaced dependency on 'Google Analytics Dashboard' plugin with a dependency on 'Google Analytics by MonsterInsights'
+* Replaced dependency on 'Google Analytics Dashboard' plugin with a dependency on 'Google Analytics by Yoast'
 * New filters, 'gtc_list_format' and 'gtc_list_item_format' for modifying the format of the list/list-item output
 
 ### 1.5.7

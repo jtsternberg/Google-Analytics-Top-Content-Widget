@@ -338,6 +338,9 @@ class GA_Top_Content {
 						continue;
 					}
 				}
+				if($wppost->post_status != 'publish'){
+					continue;
+				}
 			}
 
 			$title = stripslashes( wp_filter_post_kses( apply_filters( 'gtc_page_title', $page['name'], $page, $wppost ) ) );
@@ -359,7 +362,7 @@ class GA_Top_Content {
 				}
 			}
 
-			$list .= apply_filters( 'gtc_list_item', sprintf( $this->list_item_format(), $thumb, $url, $title ), $page, $wppost, $counter, $title, $url );
+			$list .= apply_filters( 'gtc_list_item', sprintf( $this->list_item_format(), $thumb, $url, $title, $counter ), $page, $wppost, $counter, $title, $url, $thumb );
 
 			$counter++;
 
@@ -457,17 +460,32 @@ class GA_Top_Content {
 
 			$permalink = get_permalink( $atts['post_id'] );
 			$url_data  = parse_url( $permalink );
-			$link_uri  = substr( $url_data['path'] . ( isset( $url_data['query'] ) ? ( '?' . $url_data['query'] ) : '' ), -20 );
+
+			$link_uri  = urldecode( $url_data['path'] );
+			if ( ! empty( $url_data['query'] ) ) {
+				$link_uri .= '?' . $url_data['query'];
+			}
+
+			$link_uri  = function_exists( 'mb_substr' ) ? mb_substr( $link_uri, -20 ) : substr( $link_uri, -20 );
 
 			if ( empty( $link_uri ) || 'draft' == get_post_status( $atts['post_id'] ) ) {
 				return '';
 			}
 
+			$filters = sprintf( 'ga:pagePath=~%s.*', $link_uri );
+
+			/**
+			 * Build GA $filters param and allow filtering
+			 *
+			 * @var string
+			 */
+			$filters = apply_filters( 'gtc_views_shortcode_ga_filters_param', $filters, $atts, $link_uri );
+
 			$params = array(
 				'ids'         => 'ga:'. $this->id(),
 				'dimensions'  => 'ga:pageTitle,ga:pagePath',
 				'metrics'     => 'ga:pageViews',
-				'filters'     => urlencode( 'ga:pagePath=~' . $link_uri . '.*' ),
+				'filters'     => urlencode( $filters ),
 				'max-results' => 100,
 				'start-date'  => $atts['start_date'],
 				'end-date'    => $atts['end_date'],

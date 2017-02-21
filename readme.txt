@@ -1,19 +1,19 @@
-=== Plugin Name ===  
+=== Plugin Name ===
 Google Analytics Top Content Widget
 
 Contributors: jtsternberg
-Plugin Name:  Google Analytics Top Content Widget  
-Plugin URI: http://j.ustin.co/yWTtmy  
-Tags: google analytics, google, top posts, top content, display rank, page rank, page views, widget, sidebar, sidebar widget, Google Analytics by MonsterInsights, shortcode, site stats, statistics, stats  
-Author: Jtsternberg  
-Author URI: http://dsgnwrks.pro  
-Donate link: http://j.ustin.co/rYL89n  
-Requires at least: 3.0  
-Tested up to: 4.4.2  
-Stable tag: trunk  
-Version: 1.6.9  
-License: GPLv2 or later  
-License URI: http://www.gnu.org/licenses/gpl-2.0.html  
+Plugin Name:  Google Analytics Top Content Widget
+Plugin URI: http://j.ustin.co/yWTtmy
+Tags: google analytics, google, top posts, top content, display rank, page rank, page views, widget, sidebar, sidebar widget, Google Analytics by Yoast, shortcode, site stats, statistics, stats
+Author: Jtsternberg
+Author URI: http://dsgnwrks.pro
+Donate link: http://j.ustin.co/rYL89n
+Requires at least: 3.0
+Tested up to: 4.4.2
+Stable tag: trunk
+Version: 1.7.0
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Widget and shortcode to display top content according to Google Analytics. ("Google Analytics by MonsterInsights" plugin required)
 
@@ -56,18 +56,18 @@ All of the widget options are exactly that.. optional. If you don't include them
 * Plugin uses WordPress transients to cache the Google results so you're not running the update from Google every time. cache updates every 24 hours.
 * Developer Friendly. Many filters built in to allow you to filter the results to dispay how you want.  One example of that would be to remove your Site's title from the results. (now unnecessary, as the widget/shortcode has the option built in)
 ** [Example using a filter to add view counts after the title](http://wordpress.org/support/topic/top-viewed-content-couple-of-tweeks-needed?replies=9#post-3816989) -
-`add_filter( 'gtc_pages_filter', 'gtc_add_viewcount_title' );
-function gtc_add_viewcount_title( $pages ) {
-
-	if ( !$pages )
-		return false;
-	// loop through the pages
-	foreach ( $pages as $key => $page ) {
-		// and add the page count to the title value
-		$pages[$key]['children']['value'] = $pages[$key]['children']['value'] . ' ['. $pages[$key]['children']['children']['ga:pageviews'] .' Views]';
+`function gtc_add_viewcount_title( $pages ) {
+	if ( ! empty( $pages ) ) {
+		// loop through the pages
+		foreach ( $pages as $key => $page ) {
+			// and add the page count to the title value
+			$pages[ $key ]['name'] = $pages[ $key ]['name'] . ' ['. $pages[ $key ]['value'] .' Views]';
+		}
 	}
+
 	return $pages;
-}`
+}
+add_filter( 'gtc_pages_filter', 'gtc_add_viewcount_title' );`
 
 Feel free to [fork or contribute on Github](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget).
 
@@ -113,6 +113,11 @@ If you run into a problem or have a question, contact me ([contact form](http://
 
 == Changelog ==
 
+= 1.7.0 =
+* Pass thumbnail to `gtc_list_item` filter and counter to the `list_item_format` `sprintf`. Props [@chibani](https://github.com/chibani), [#12](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/12).
+* By default, filter out posts which are not published (e.g. drafts, pending). Props [@pmtarantino](https://github.com/pmtarantino), [#15](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/15).
+* Support for non-ascii urls in `google_analytics_views` shortcode. Props [@entr](https://github.com/entr), [#21](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/21).
+
 = 1.6.9 =
 * Fix the issue which allowed some content through which should have been disallowed by the content filter. Now if the content filter is used at all and `url_to_postid` fails, the page will be excluded in the results.
 
@@ -133,17 +138,17 @@ If you run into a problem or have a question, contact me ([contact form](http://
 * Bug fix: Upgrade [TGM-Plugin-Activation](https://github.com/TGMPA/TGM-Plugin-Activation) to fix [an occasional issue](https://github.com/TGMPA/TGM-Plugin-Activation/issues/455#issuecomment-129684199).
 
 = 1.6.3 =
-* Bug fix: "Google Analytics by MonsterInsights" version 5.4.3 changed the name/location of their Google Analytics client class, so need to compensate
+* Bug fix: "Google Analytics by Yoast" version 5.4.3 changed the name/location of their Google Analytics client class, so need to compensate
 
 = 1.6.2 =
 * Update TGM-Plugin-Activation library.
-* Cause shortcode caches to be flushed when the post is updated. 
+* Cause shortcode caches to be flushed when the post is updated.
 
 = 1.6.1 =
 * New filters, 'gtc_analytics_request_params', and "gtc_analytics_{$context}_request_params" for modifying the request arguments to the Google Analytics API. (for things [like this](https://wordpress.org/support/topic/uniques-instead-of-raw-pageviews?replies=1))
 
 = 1.6.0 =
-* Replaced dependency on 'Google Analytics Dashboard' plugin with a dependency on 'Google Analytics by MonsterInsights'
+* Replaced dependency on 'Google Analytics Dashboard' plugin with a dependency on 'Google Analytics by Yoast'
 * New filters, 'gtc_list_format' and 'gtc_list_item_format' for modifying the format of the list/list-item output
 
 = 1.5.7 =
@@ -214,6 +219,11 @@ If you were using the shortcode and it broke, you will need to switch to using t
 
 == Upgrade Notice ==
 
+= 1.7.0 =
+* Pass thumbnail to `gtc_list_item` filter and counter to the `list_item_format` `sprintf`. Props [@chibani](https://github.com/chibani), [#12](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/12).
+* By default, filter out posts which are not published (e.g. drafts, pending). Props [@pmtarantino](https://github.com/pmtarantino), [#15](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/15).
+* Support for non-ascii urls in `google_analytics_views` shortcode. Props [@entr](https://github.com/entr), [#21](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/21).
+
 = 1.6.9 =
 * Fix the issue which allowed some content through which should have been disallowed by the content filter. Now if the content filter is used at all and `url_to_postid` fails, the page will be excluded in the results.
 
@@ -234,17 +244,17 @@ If you were using the shortcode and it broke, you will need to switch to using t
 * Bug fix: Upgrade [TGM-Plugin-Activation](https://github.com/TGMPA/TGM-Plugin-Activation) to fix [an occasional issue](https://github.com/TGMPA/TGM-Plugin-Activation/issues/455#issuecomment-129684199).
 
 = 1.6.3 =
-* Bug fix: "Google Analytics by MonsterInsights" version 5.4.3 changed the name/location of their Google Analytics client class, so need to compensate
+* Bug fix: "Google Analytics by Yoast" version 5.4.3 changed the name/location of their Google Analytics client class, so need to compensate
 
 = 1.6.2 =
 * Update TGM-Plugin-Activation library.
-* Cause shortcode caches to be flushed when the post is updated. 
+* Cause shortcode caches to be flushed when the post is updated.
 
 = 1.6.1 =
 * New filters, 'gtc_analytics_request_params', and "gtc_analytics_{$context}_request_params" for modifying the request arguments to the Google Analytics API. (for things [like this](https://wordpress.org/support/topic/uniques-instead-of-raw-pageviews?replies=1))
 
 = 1.6.0 =
-* Replaced dependency on 'Google Analytics Dashboard' plugin with a dependency on 'Google Analytics by MonsterInsights'
+* Replaced dependency on 'Google Analytics Dashboard' plugin with a dependency on 'Google Analytics by Yoast'
 * New filters, 'gtc_list_format' and 'gtc_list_item_format' for modifying the format of the list/list-item output
 
 = 1.5.7 =
