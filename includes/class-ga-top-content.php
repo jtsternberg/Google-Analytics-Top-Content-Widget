@@ -645,7 +645,7 @@ class GA_Top_Content {
 
 		if ( class_exists( 'MonsterInsights_GA' ) ) {
 
-			$mi = class_exists( 'MonsterInsights' ) ? MonsterInsights() : MonsterInsights_Lite();
+			$mi = MonsterInsights();
 			$ga = $mi->ga;
 
 		} else {
