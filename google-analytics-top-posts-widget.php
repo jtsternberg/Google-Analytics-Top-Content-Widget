@@ -10,7 +10,7 @@
  * @link      http://j.ustin.co/rYL89n
  *
  * Plugin Name: Google Analytics Top Content Widget
- * Description: Widget and shortcode to display top content according to Google Analytics. ("Google Analytics by Yoast" plugin required)
+ * Description: Widget and shortcode to display top content according to Google Analytics. ("Google Analytics by MonsterInsights" plugin required)
  * Plugin URI:  http://j.ustin.co/yWTtmy
  * Author:      Jtsternberg
  * Author URI:  http://dsgnwrks.pro

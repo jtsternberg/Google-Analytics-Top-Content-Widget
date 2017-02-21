@@ -15,13 +15,13 @@ Version: 1.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Widget and shortcode to display top content according to Google Analytics. ("Google Analytics by Yoast" plugin required)
+Widget and shortcode to display top content according to Google Analytics. ("Google Analytics by MonsterInsights" plugin required)
 
 == Description ==
 
 Adds a widget that allows you to display top pages/posts in your sidebar based on google analytics data.
 
-Requires a Google Analytics account, and the plugin, ["Google Analytics by Yoast"](http://wordpress.org/extend/plugins/google-analytics-dashboard/) (which will be auto-installed by this plugin, thanks to [@jthomasgriffin](http://twitter.com/jthomasgriffin)'s awesome [TGM Plugin Activation Class](http://j.ustin.co/yZPKXw)).
+Requires a Google Analytics account, and the plugin, ["Google Analytics by MonsterInsights"](https://wordpress.org/plugins/google-analytics-for-wordpress/) (which will be auto-installed by this plugin, thanks to [@jthomasgriffin](http://twitter.com/jthomasgriffin)'s awesome [TGM Plugin Activation Class](http://j.ustin.co/yZPKXw)).
 
 Also includes a shortcode to display the top content in your posts and pages.
 
@@ -75,8 +75,8 @@ Feel free to [fork or contribute on Github](https://github.com/jtsternberg/Googl
 
 1. Upload the `google-analytics-top-posts-widget` directory to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Plugin will prompt you to install the "Google Analytics by Yoast" plugin. Install and activate it.
-4. Use the "Google Analytics by Yoast" plugin's settings page to login to your google analytics account.
+3. Plugin will prompt you to install the "Google Analytics by MonsterInsights" plugin. Install and activate it.
+4. Use the "Google Analytics by MonsterInsights" plugin's settings page to authenticate to your google analytics account.
 5. On the widgets page, drag the "Google Analytics Top Posts" widget to the desired sidebar.
 6. Update the widget settings and save.
 
@@ -116,6 +116,8 @@ If you run into a problem or have a question, contact me ([contact form](http://
 = 1.7.0 =
 * Pass thumbnail to `gtc_list_item` filter and counter to the `list_item_format` `sprintf`. Props [@chibani](https://github.com/chibani), [#12](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/12).
 * By default, filter out posts which are not published (e.g. drafts, pending). Props [@pmtarantino](https://github.com/pmtarantino), [#15](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/15).
+* Support for non-ascii urls in `google_analytics_views` shortcode. Props [@entr](https://github.com/entr), [#21](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/21).
+* Update to support MonsterInsights > 6.0. Props [@chriscct7](https://github.com/chriscct7), [#18](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/18).
 
 = 1.6.9 =
 * Fix the issue which allowed some content through which should have been disallowed by the content filter. Now if the content filter is used at all and `url_to_postid` fails, the page will be excluded in the results.
@@ -221,6 +223,8 @@ If you were using the shortcode and it broke, you will need to switch to using t
 = 1.7.0 =
 * Pass thumbnail to `gtc_list_item` filter and counter to the `list_item_format` `sprintf`. Props [@chibani](https://github.com/chibani), [#12](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/12).
 * By default, filter out posts which are not published (e.g. drafts, pending). Props [@pmtarantino](https://github.com/pmtarantino), [#15](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/15).
+* Support for non-ascii urls in `google_analytics_views` shortcode. Props [@entr](https://github.com/entr), [#21](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/21).
+* Update to support MonsterInsights > 6.0. Props [@chriscct7](https://github.com/chriscct7), [#18](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/18).
 
 = 1.6.9 =
 * Fix the issue which allowed some content through which should have been disallowed by the content filter. Now if the content filter is used at all and `url_to_postid` fails, the page will be excluded in the results.

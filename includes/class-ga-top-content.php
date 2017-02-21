@@ -41,8 +41,8 @@ class GA_Top_Content {
 			'update'          => false,
 		);
 
-		// only do TGM Plugin Activation if we don't already have Yoast Google Analytics active
-		if ( ! class_exists( 'Yoast_GA_Admin' ) ) {
+		// only do TGM Plugin Activation if we don't already have MonsterInsights Google Analytics active
+		if ( ! defined( 'GAWP_VERSION' ) ) {
 			require_once GATC_DIR . 'vendor/tgm-plugin-activation/class-tgm-plugin-activation.php';
 			add_action( 'tgmpa_register', array( $this, 'register_required_plugins' ) );
 
@@ -96,7 +96,7 @@ class GA_Top_Content {
 
 		$plugins = array(
 			array(
-				'name'     => 'Google Analytics by Yoast',
+				'name'     => 'Google Analytics by MonsterInsights',
 				'slug'     => 'google-analytics-for-wordpress',
 				'required' => true,
 			),
@@ -141,38 +141,52 @@ class GA_Top_Content {
 	public function message_one() {
 		return sprintf(
 			'<p><strong>%s</strong></p><p><a href="%s" class="thickbox" title="%s">%s</a> | <a href="%s" class="thickbox" title="%s">%s</a>.</p>',
-			sprintf( __( 'The "Google Analytics Top Content" widget requires the plugin, %s, to be installed and activated.', 'gatpw' ), '<em>"Google Analytics by Yoast"</em>' ),
+			sprintf( __( 'The "Google Analytics Top Content" widget requires the plugin, %s, to be installed and activated.', 'gatpw' ), '<em>"Google Analytics by MonsterInsights"</em>' ),
 			admin_url( 'plugins.php?page=install-required-plugins' ),
-			__( 'Install Google Analytics by Yoast', 'gatpw' ),
+			__( 'Install Google Analytics by MonsterInsights', 'gatpw' ),
 			__( 'Install plugin', 'gatpw' ),
 			admin_url( 'plugins.php' ),
-			__( 'Activate Google Analytics by Yoast', 'gatpw' ),
+			__( 'Activate Google Analytics by MonsterInsights', 'gatpw' ),
 			__( 'Activate plugin', 'gatpw' )
 		);
 	}
 
 	public function message_two() {
-		return sprintf(
+		$url = sprintf(
 			'<p>%s</p><p><a href="%s">%s</a>.</p>',
-			__( 'You must first login to Google Analytics in the "Google Analytics by Yoast" settings for this widget to work.', 'gatpw' ),
+			__( 'You must first authenticate to Google Analytics in the "Google Analytics by MonsterInsights" settings for this widget to work.', 'gatpw' ),
 			admin_url( 'admin.php?page=yst_ga_settings' ),
 			__( 'Go to plugin settings', 'gatpw' )
 		);
+		if ( defined( 'MONSTERINSIGHTS_VERSION' ) ) {
+			$url = sprintf(
+				'<p>%s</p><p><a href="%s">%s</a>.</p>',
+				__( 'You must first authenticate to Google Analytics in the "Google Analytics by MonsterInsights" settings for this widget to work.', 'gatpw' ),
+				admin_url( 'admin.php?page=monsterinsights_settings' ),
+				__( 'Go to plugin settings', 'gatpw' )
+			);
+		}
+
+		return $url;
 	}
 
 	public function change_link_text( $complete_link_text ) {
-		return __( 'Go to "Google Analytics by Yoast" plugin settings', 'gatpw' );
+		return __( 'Go to "Google Analytics by MonsterInsights" plugin settings', 'gatpw' );
 	}
 
 	public function change_link_url( $complete_link_url ) {
-		return admin_url( 'admin.php?page=yst_ga_settings' );
+		$url = admin_url( 'admin.php?page=yst_ga_settings' );
+		if ( defined( 'MONSTERINSIGHTS_VERSION' ) ) {
+			$url = admin_url( 'admin.php?page=monsterinsights_settings' );
+		}
+		return $url;
 	}
 
 	public function top_content_shortcode( $atts = array(), $context = 'shortcode', $number = 0 ) {
 		static $inline_style = false;
 		static $inline_style_done = false;
 
-		if ( ! class_exists( 'Yoast_Google_Analytics' ) ) {
+		if ( ! defined( 'GAWP_VERSION' ) ) {
 			return $this->message_one();
 		}
 
@@ -486,7 +500,7 @@ class GA_Top_Content {
 
 	public function views_shortcode( $atts = array(), $content = '' ) {
 
-		if ( ! $this->id() || ! class_exists( 'Yoast_Google_Analytics' ) ) {
+		if ( ! $this->id() || ! defined( 'GAWP_VERSION' ) ) {
 			return '';
 		}
 
@@ -514,17 +528,32 @@ class GA_Top_Content {
 
 			$permalink = get_permalink( $atts['post_id'] );
 			$url_data  = parse_url( $permalink );
-			$link_uri  = substr( $url_data['path'] . ( isset( $url_data['query'] ) ? ( '?' . $url_data['query'] ) : '' ), -20 );
+
+			$link_uri  = urldecode( $url_data['path'] );
+			if ( ! empty( $url_data['query'] ) ) {
+				$link_uri .= '?' . $url_data['query'];
+			}
+
+			$link_uri  = function_exists( 'mb_substr' ) ? mb_substr( $link_uri, -20 ) : substr( $link_uri, -20 );
 
 			if ( empty( $link_uri ) || 'draft' == get_post_status( $atts['post_id'] ) ) {
 				return '';
 			}
 
+			$filters = sprintf( 'ga:pagePath=~%s.*', $link_uri );
+
+			/**
+			 * Build GA $filters param and allow filtering
+			 *
+			 * @var string
+			 */
+			$filters = apply_filters( 'gtc_views_shortcode_ga_filters_param', $filters, $atts, $link_uri );
+
 			$params = array(
 				'ids'         => 'ga:'. $this->id(),
 				'dimensions'  => 'ga:pageTitle,ga:pagePath',
 				'metrics'     => 'ga:pageViews',
-				'filters'     => urlencode( 'ga:pagePath=~' . $link_uri . '.*' ),
+				'filters'     => urlencode( $filters ),
 				'max-results' => 100,
 				'start-date'  => $atts['start_date'],
 				'end-date'    => $atts['end_date'],
@@ -535,7 +564,8 @@ class GA_Top_Content {
 			$count = 0;
 
 			if ( isset( $data['totalsForAllResults'] ) && is_array( $data['totalsForAllResults'] ) ) {
-				$count = reset( array_values( $data['totalsForAllResults'] ) );
+				$data  = array_values( $data['totalsForAllResults'] );
+				$count = reset( $data );
 			} elseif ( isset( $data['rows'] ) && is_array( $data['rows'] ) ) {
 				foreach ( $data['rows'] as $row ) {
 					$count = $count + $row[2];
@@ -566,8 +596,12 @@ class GA_Top_Content {
 
 	public function id() {
 		if ( is_null( $this->id ) ) {
-			$options = Yoast_GA_Options::instance()->options;
-			$this->id = isset( $options['analytics_profile'] ) ? $options['analytics_profile'] : '';
+			if ( defined( 'MONSTERINSIGHTS_VERSION' ) ) {
+				$this->id = monsterinsights_get_option( 'analytics_profile', false );
+			} else {
+				$options = Yoast_GA_Options::instance()->options;
+				$this->id = isset( $options['analytics_profile'] ) ? $options['analytics_profile'] : '';
+			}
 		}
 
 		return $this->id;
@@ -590,35 +624,50 @@ class GA_Top_Content {
 	}
 
 	public function make_request( $params, $context = '' ) {
-		if ( ! class_exists( 'Yoast_Google_Analytics' ) || ! defined( 'GAWP_FILE' ) ) {
-			trigger_error( 'GATC: ' . __( 'No requests can be made because Google Analytics Top Content Widget requires the Google Analytics by Yoast plugin to be installed and activated.', 'top-google-posts' ), E_USER_WARNING );
+		static $files_to_include = null;
+
+		if ( ! defined( 'GAWP_VERSION' ) ) {
+			trigger_error( 'GATC: ' . __( 'No requests can be made because Google Analytics Top Content Widget requires the Google Analytics by MonsterInsights plugin to be installed and activated.', 'top-google-posts' ), E_USER_WARNING );
 			return;
 		}
 
-		$path = dirname( GAWP_FILE );
-		$files_to_include = array(
-			'Yoast_Google_CacheParser'      => '/vendor/yoast/api-libs/google/io/Google_CacheParser.php',
-			'Yoast_Google_Utils'            => '/vendor/yoast/api-libs/google/service/Google_Utils.php',
-			'Yoast_Google_HttpRequest'      => '/vendor/yoast/api-libs/google/io/Google_HttpRequest.php',
-			'Yoast_Google_IO'               => '/vendor/yoast/api-libs/google/io/Google_IO.php',
-			'Yoast_Google_WPIO'             => '/vendor/yoast/api-libs/google/io/Google_WPIO.php',
-			'Yoast_Google_Auth'             => '/vendor/yoast/api-libs/google/auth/Google_Auth.php',
-			'Yoast_Google_OAuth2'           => '/vendor/yoast/api-libs/google/auth/Google_OAuth2.php',
-			'Yoast_Google_Cache'            => '/vendor/yoast/api-libs/google/cache/Google_Cache.php',
-			'Yoast_Google_WPCache'          => '/vendor/yoast/api-libs/google/cache/Google_WPCache.php',
-			'Yoast_Google_Client'           => '/vendor/yoast/api-libs/google/Google_Client.php',
-			'Yoast_Google_Analytics_Client' => '/vendor/yoast/api-libs/googleanalytics/class-google-analytics-client.php',
-		);
+		if ( class_exists( 'MonsterInsights_GA' ) ) {
 
-		if ( version_compare( GAWP_VERSION, '5.4.3' ) >= 0 ) {
-			unset( $files_to_include['Yoast_Google_Analytics_Client'] );
-			$files_to_include['Yoast_Api_Google_Client'] = '/vendor/yoast/api-libs/class-api-google-client.php';
-		}
+			$mi = class_exists( 'MonsterInsights' ) ? MonsterInsights() : MonsterInsights_Lite();
+			$ga = $mi->ga;
 
-		foreach ( $files_to_include as $class => $file ) {
-			if ( ! is_admin() || ! class_exists( $class, true ) ) {
-				require_once $path . $file;
+		} else {
+
+			if ( ! is_admin() && null === $files_to_include ) {
+				$files_to_include = array(
+					'Yoast_Google_CacheParser'      => '/vendor/yoast/api-libs/google/io/Google_CacheParser.php',
+					'Yoast_Google_Utils'            => '/vendor/yoast/api-libs/google/service/Google_Utils.php',
+					'Yoast_Google_HttpRequest'      => '/vendor/yoast/api-libs/google/io/Google_HttpRequest.php',
+					'Yoast_Google_IO'               => '/vendor/yoast/api-libs/google/io/Google_IO.php',
+					'Yoast_Google_WPIO'             => '/vendor/yoast/api-libs/google/io/Google_WPIO.php',
+					'Yoast_Google_Auth'             => '/vendor/yoast/api-libs/google/auth/Google_Auth.php',
+					'Yoast_Google_OAuth2'           => '/vendor/yoast/api-libs/google/auth/Google_OAuth2.php',
+					'Yoast_Google_Cache'            => '/vendor/yoast/api-libs/google/cache/Google_Cache.php',
+					'Yoast_Google_WPCache'          => '/vendor/yoast/api-libs/google/cache/Google_WPCache.php',
+					'Yoast_Google_Client'           => '/vendor/yoast/api-libs/google/Google_Client.php',
+					'Yoast_Google_Analytics_Client' => '/vendor/yoast/api-libs/googleanalytics/class-google-analytics-client.php',
+				);
+
+				if ( version_compare( GAWP_VERSION, '5.4.3' ) >= 0 ) {
+					unset( $files_to_include['Yoast_Google_Analytics_Client'] );
+					$files_to_include['Yoast_Api_Google_Client'] = '/vendor/yoast/api-libs/class-api-google-client.php';
+				}
+
+				$path = dirname( GAWP_FILE );
+
+				foreach ( $files_to_include as $class => $file ) {
+					if ( ! class_exists( $class, true ) ) {
+						require_once $path . $file;
+					}
+				}
 			}
+
+			$ga = Yoast_Google_Analytics::get_instance();
 		}
 
 		$params = apply_filters( 'gtc_analytics_request_params', $params );
@@ -627,7 +676,7 @@ class GA_Top_Content {
 			$params = apply_filters( "gtc_analytics_{$context}_request_params", $params );
 		}
 
-		$response = Yoast_Google_Analytics::get_instance()->do_request( add_query_arg( $params, 'https://www.googleapis.com/analytics/v3/data/ga' ) );
+		$response = $ga->do_request( add_query_arg( $params, 'https://www.googleapis.com/analytics/v3/data/ga' ) );
 
 		return isset( $response['response']['code'] ) && 200 == $response['response']['code']
 			? wp_remote_retrieve_body( $response )
