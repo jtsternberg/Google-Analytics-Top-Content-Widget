@@ -116,6 +116,7 @@ If you run into a problem or have a question, contact me ([contact form](http://
 = 1.7.0 =
 * Pass thumbnail to `gtc_list_item` filter and counter to the `list_item_format` `sprintf`. Props [@chibani](https://github.com/chibani), [#12](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/12).
 * By default, filter out posts which are not published (e.g. drafts, pending). Props [@pmtarantino](https://github.com/pmtarantino), [#15](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/15).
+* Support for non-ascii urls in `google_analytics_views` shortcode. Props [@entr](https://github.com/entr), [#21](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/21).
 
 = 1.6.9 =
 * Fix the issue which allowed some content through which should have been disallowed by the content filter. Now if the content filter is used at all and `url_to_postid` fails, the page will be excluded in the results.
@@ -221,6 +222,7 @@ If you were using the shortcode and it broke, you will need to switch to using t
 = 1.7.0 =
 * Pass thumbnail to `gtc_list_item` filter and counter to the `list_item_format` `sprintf`. Props [@chibani](https://github.com/chibani), [#12](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/12).
 * By default, filter out posts which are not published (e.g. drafts, pending). Props [@pmtarantino](https://github.com/pmtarantino), [#15](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/15).
+* Support for non-ascii urls in `google_analytics_views` shortcode. Props [@entr](https://github.com/entr), [#21](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/21).
 
 = 1.6.9 =
 * Fix the issue which allowed some content through which should have been disallowed by the content filter. Now if the content filter is used at all and `url_to_postid` fails, the page will be excluded in the results.
