@@ -11,20 +11,19 @@ class Dsgnwrks_Google_Top_Posts_Widgets extends WP_Widget {
 
 		$this->gatc = GA_Top_Content::get_instance();
 
-		parent::__construct( 'Dsgnwrks_Google_Top_Posts_Widgets', 'Google Analytics Top Content', array(
+		parent::__construct( 'Dsgnwrks_Google_Top_Posts_Widgets', __( 'Google Analytics Top Content', 'google-analytics-top-content' ), array(
 			'classname' => 'google_top_posts',
-			'description' => 'Show top posts from Google Analytics',
+			'description' => __( 'Show top posts from Google Analytics', 'google-analytics-top-content' ),
 		) );
 	}
 
-	 //build the widget settings form
+	// build the widget settings form
 	public function form( $instance ) {
 
-		if ( ! class_exists( 'Yoast_Google_Analytics' ) ) {
+		if ( ! class_exists( 'Yoast_Google_Analytics' ) || ! class_exists( 'MonsterInsights_GA' ) ) {
 			echo $this->gatc->message_one();
 			echo '<style type="text/css"> #widget-'. $this->id .'-savewidget { display: none !important; } </style>';
 			return;
-
 		}
 
 		if ( ! $this->gatc->id() ) {
@@ -38,13 +37,13 @@ class Dsgnwrks_Google_Top_Posts_Widgets extends WP_Widget {
 		$instance['contentfilter'] = is_string( $instance['contentfilter'] ) ? explode( ',', $instance['contentfilter'] ) : (array) $instance['contentfilter'];
 
 		?>
-		<p><label><b>Title:</b><input class="widefat" name="<?php echo $this->get_field_name( 'title' ); ?>"  type="text" value="<?php echo esc_attr( $title ); ?>" /></label></p>
+		<p><label><b><?php _e( 'Title:', 'google-analytics-top-content' ); ?></b><input class="widefat" name="<?php echo $this->get_field_name( 'title' ); ?>"  type="text" value="<?php echo esc_attr( $title ); ?>" /></label></p>
 
-		<p><label><b>Show pages with at least __ number of page views:</b> <input class="widefat" name="<?php echo $this->get_field_name( 'pageviews' ); ?>"  type="text" value="<?php echo absint( $pageviews ); ?>" /></label></p>
+		<p><label><b><?php _e( 'Show pages with at least __ number of page views:', 'google-analytics-top-content' ); ?></b> <input class="widefat" name="<?php echo $this->get_field_name( 'pageviews' ); ?>"  type="text" value="<?php echo absint( $pageviews ); ?>" /></label></p>
 
-		<p><label><b>Number to Show:</b> <input class="widefat" name="<?php echo $this->get_field_name( 'number' ); ?>"  type="text" value="<?php echo absint( $number ); ?>" /></label></p>
+		<p><label><b><?php _e( 'Number to Show:', 'google-analytics-top-content' ); ?></b> <input class="widefat" name="<?php echo $this->get_field_name( 'number' ); ?>"  type="text" value="<?php echo absint( $number ); ?>" /></label></p>
 
-		<p><label><b>Select how far back you would like analytics to pull from:</b>
+		<p><label><b><?php _e( 'Select how far back you would like analytics to pull from:', 'google-analytics-top-content' ); ?></b>
 
 			<div class="timestamp-wrap">
 				<?php
@@ -62,10 +61,10 @@ class Dsgnwrks_Google_Top_Posts_Widgets extends WP_Widget {
 
 				echo '<select style="width: 50%;" id="'. $this->get_field_name( 'time' ) .'" name="'. $this->get_field_name( 'time' ) .'">';
 
-				echo '<option value="3600"', selected( '3600', $time ) ,'>hour(s)</option>';
-				echo '<option value="86400"', selected( '86400', $time ) ,'>day(s)</option>';
-				echo '<option value="2628000"', selected( '2628000', $time ) ,'>month(s)</option>';
-				echo '<option value="31536000"', selected( '31536000', $time ) ,'>year(s)</option>';
+				echo '<option value="3600"', selected( '3600', $time ) ,'>' . __( 'hour(s)', 'google-analytics-top-content' ) . '</option>';
+				echo '<option value="86400"', selected( '86400', $time ) ,'>' . __( 'day(s)', 'google-analytics-top-content' ) . '</option>';
+				echo '<option value="2628000"', selected( '2628000', $time ) ,'>' . __( 'month(s)', 'google-analytics-top-content' ) . '</option>';
+				echo '<option value="31536000"', selected( '31536000', $time ) ,'>' . __( 'year(s)', 'google-analytics-top-content' ) . '</option>';
 
 				echo '</select>';
 				?>
@@ -73,13 +72,13 @@ class Dsgnwrks_Google_Top_Posts_Widgets extends WP_Widget {
 		</label></p>
 
 		<p><label>
-			<span style="width: 80%; float: left; margin-right: 10px;"><b>Remove home page from list:</b> (usually "<i>yoursite.com</i>" is the highest viewed page)<br/></span>
+			<span style="width: 80%; float: left; margin-right: 10px;"><b><?php _e( 'Remove home page from list:', 'google-analytics-top-content' ); ?></b> <?php _e( '(usually "<i>yoursite.com</i>" is the highest viewed page)', 'google-analytics-top-content' ); ?><br/></span>
 			<input style="margin-top: 15px;" id="<?php echo $this->get_field_id( 'showhome' ); ?>" type="checkbox" name="<?php echo $this->get_field_name( 'showhome' ); ?>" value="1" <?php checked( 1, $showhome ); ?>/>
 		</label></p>
 
-		<p style="clear: both; padding-top: 15px;"><label><b>Remove Site Title From Listings:</b><br/>Your listings will usually be returned with the page/post name as well as the site title. To remove the site title from the listings, place the exact text you would like removed (i.e. <i>- Site Title</i>) here. If there is more than one phrase to be removed, separate them by commas (i.e. <i>- Site Title, | Site Title</i>). <b>Unless your site doesn't output the site titles, then you will need to add this in order for the filter settings below to work.</b> <input class="widefat" style="margin-top:2px;" name="<?php echo $this->get_field_name( 'titleremove' ); ?>"  type="text" value="<?php echo esc_attr( $titleremove ); ?>" /></label></p>
+		<p style="clear: both; padding-top: 15px;"><label><b><?php _e( 'Remove Site Title From Listings:', 'google-analytics-top-content' ); ?></b><br/><?php _e( 'Your listings will usually be returned with the page/post name as well as the site title. To remove the site title from the listings, place the exact text you would like removed (i.e. <i>- Site Title</i>) here. If there is more than one phrase to be removed, separate them by commas (i.e. <i>- Site Title, | Site Title</i>). <b>Unless your site doesn\'t output the site titles, then you will need to add this in order for the filter settings below to work.', 'google-analytics-top-content' ); ?></b> <input class="widefat" style="margin-top:2px;" name="<?php echo $this->get_field_name( 'titleremove' ); ?>"  type="text" value="<?php echo esc_attr( $titleremove ); ?>" /></label></p>
 
-		<p><b>Limit Listings To:</b></p>
+		<p><b><?php _e( 'Limit Listings To:', 'google-analytics-top-content' ); ?></b></p>
 		<label><input id="<?php echo $this->get_field_id( 'contentfilter' ); ?>-allcontent" type="checkbox" name="<?php echo $this->get_field_name( 'contentfilter' ); ?>[]" value="1" <?php checked( in_array( 'allcontent', $instance['contentfilter'] ) ); ?>/> Not Limited</label><br>
 
 		<?php
@@ -98,30 +97,30 @@ class Dsgnwrks_Google_Top_Posts_Widgets extends WP_Widget {
 
 		<?php if ( in_array( 'allcontent', $instance['contentfilter'], 1 ) || in_array( 'post', $instance['contentfilter'], 1 ) ) { ?>
 
-			<p><label><b>Limit Listings To Category:</b><br/>To limit to specific categories, place comma separated category ID's.<input class="widefat" style="margin-top:2px;" name="<?php echo $this->get_field_name( 'catlimit' ); ?>"  type="text" value="<?php echo esc_attr( $catlimit ); ?>" /></label></p>
+			<p><label><b><?php _e( 'Limit Listings To Category:', 'google-analytics-top-content' ); ?></b><br/><?php _e( 'To limit to specific categories, place comma separated category IDs.', 'google-analytics-top-content' ); ?><input class="widefat" style="margin-top:2px;" name="<?php echo $this->get_field_name( 'catlimit' ); ?>"  type="text" value="<?php echo esc_attr( $catlimit ); ?>" /></label></p>
 
-			<p><label><b>Filter Out Category:</b><br/>To remove specific categories, place comma separated category ID's.<input class="widefat" style="margin-top:2px;" name="<?php echo $this->get_field_name( 'catfilter' ); ?>"  type="text" value="<?php echo esc_attr( $catfilter ); ?>" /></label></p>
+			<p><label><b><?php _e( 'Filter Out Category:', 'google-analytics-top-content' ); ?></b><br/><?php _e( 'To remove specific categories, place comma separated category IDs.', 'google-analytics-top-content' ); ?><input class="widefat" style="margin-top:2px;" name="<?php echo $this->get_field_name( 'catfilter' ); ?>"  type="text" value="<?php echo esc_attr( $catfilter ); ?>" /></label></p>
 
 		<?php } ?>
 
-		<p><label><b>Filter Out Post/Page IDs:</b><br/>To remove specific posts/pages, place comma separated post/page ID's.<input class="widefat" style="margin-top:2px;" name="<?php echo $this->get_field_name( 'postfilter' ); ?>"  type="text" value="<?php echo esc_attr( $postfilter ); ?>" /></label></p>
+		<p><label><b><?php _e( 'Filter Out Post/Page IDs:', 'google-analytics-top-content' ); ?></b><br/><?php _e( 'To remove specific posts/pages, place comma separated post/page IDs.', 'google-analytics-top-content' ); ?><input class="widefat" style="margin-top:2px;" name="<?php echo $this->get_field_name( 'postfilter' ); ?>"  type="text" value="<?php echo esc_attr( $postfilter ); ?>" /></label></p>
 
-		<p><label><b>Thumbnail Size:</b><br/>Optionally display a thumbnail next to the post title (if the post has a thumbnail).<br>
+		<p><label><b><?php _e( 'Thumbnail Size:', 'google-analytics-top-content' ); ?></b><br/><?php _e( 'Optionally display a thumbnail next to the post title (if the post has a thumbnail).', 'google-analytics-top-content' ); ?><br>
 		<select style="margin-top:2px;max-width:100%;" name="<?php echo $this->get_field_name( 'thumb_size' ); ?>">
 		<?php
-		echo '<option value="" ', selected( empty( $instance['thumb_size'] ), true ) ,'>No Thumbnail</option>';
+		echo '<option value="" ', selected( empty( $instance['thumb_size'] ), true ) ,'>' . __( 'No Thumbnail', 'google-analytics-top-content' ) . '</option>';
 		foreach ( $this->get_image_size_options() as $size => $label ) {
 			echo '<option value="', $size ,'" ', selected( ! empty( $instance['thumb_size'] ) && $size == $instance['thumb_size'] ) ,'>', $label ,'</option>';
 		}
 		?>
 		</select>
 
-		<p><label><b>Thumbnail Alignment:</b><br/>Will only apply if choosing a thumbnail size.<br>
+		<p><label><b><?php _e( 'Thumbnail Alignment:', 'google-analytics-top-content' ); ?></b><br/><?php _e( 'Will only apply if choosing a thumbnail size.', 'google-analytics-top-content' ); ?><br>
 		<select style="margin-top:2px;max-width:100%;" name="<?php echo $this->get_field_name( 'thumb_alignment' ); ?>">
-			<option value="" <?php selected( empty( $instance['thumb_alignment'] ), true ); ?>>None</option>
-			<option value="alignleft" <?php selected( $instance['thumb_alignment'], 'alignleft' ); ?>>Left Align</option>
-			<option value="alignright" <?php selected( $instance['thumb_alignment'], 'alignright' ); ?>>Right Align</option>
-			<option value="aligncenter" <?php selected( $instance['thumb_alignment'], 'aligncenter' ); ?>>Centered</option>
+			<option value="" <?php selected( empty( $instance['thumb_alignment'] ), true ); ?>><?php _e( 'None', 'google-analytics-top-content' ); ?></option>
+			<option value="alignleft" <?php selected( $instance['thumb_alignment'], 'alignleft' ); ?>><?php _e( 'Left Align', 'google-analytics-top-content' ); ?></option>
+			<option value="alignright" <?php selected( $instance['thumb_alignment'], 'alignright' ); ?>><?php _e( 'Right Align', 'google-analytics-top-content' ); ?></option>
+			<option value="aligncenter" <?php selected( $instance['thumb_alignment'], 'aligncenter' ); ?>><?php _e( 'Centered', 'google-analytics-top-content' ); ?></option>
 		</select>
 		<?php
 

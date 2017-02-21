@@ -25,7 +25,7 @@ class GA_Top_Content {
 	protected function __construct() {
 
 		$this->defaults = array(
-			'title'           => 'Top Viewed Content',
+			'title'           => __( 'Top Viewed Content', 'google-analytics-top-content' ),
 			'pageviews'       => 20,
 			'number'          => 5,
 			'timeval'         => '1',
@@ -102,10 +102,10 @@ class GA_Top_Content {
 			),
 		);
 
-		$widgets_url = '<a href="' . get_admin_url( '', 'widgets.php' ) . '" title="' . __( 'Setup Widget', 'top-google-posts' ) . '">' . __( 'Setup Widget', 'top-google-posts' ) . '</a>';
+		$widgets_url = '<a href="' . get_admin_url( '', 'widgets.php' ) . '" title="' . __( 'Setup Widget', 'google-analytics-top-content' ) . '">' . __( 'Setup Widget', 'google-analytics-top-content' ) . '</a>';
 
 		$config = array(
-			'domain'           => 'top-google-posts',
+			'domain'           => 'google-analytics-top-content',
 			'default_path'     => '',
 			'parent_slug'      => 'plugins.php',
 			'capability'       => 'install_plugins',
@@ -114,10 +114,10 @@ class GA_Top_Content {
 			'is_automatic'     => true,
 			'message'          => '',
 			'strings'          => array(
-				'page_title'                      => __( 'Install Required Plugins', 'top-google-posts' ),
-				'menu_title'                      => __( 'Install Plugins', 'top-google-posts' ),
-				'installing'                      => __( 'Installing Plugin: %s', 'top-google-posts' ), // %1$s = plugin name
-				'oops'                            => __( 'Something went wrong with the plugin API.', 'top-google-posts' ),
+				'page_title'                      => __( 'Install Required Plugins', 'google-analytics-top-content' ),
+				'menu_title'                      => __( 'Install Plugins', 'google-analytics-top-content' ),
+				'installing'                      => __( 'Installing Plugin: %s', 'google-analytics-top-content' ), // %1$s = plugin name
+				'oops'                            => __( 'Something went wrong with the plugin API.', 'google-analytics-top-content' ),
 				'notice_can_install_required'     => _n_noop( 'The "Google Analytics Top Content" plugin requires the following plugin: %1$s.', 'This plugin requires the following plugins: %1$s.' ), // %1$s = plugin name(s)
 				'notice_can_install_recommended'  => _n_noop( 'This plugin recommends the following plugin: %1$s.', 'This plugin recommends the following plugins: %1$s.' ), // %1$s = plugin name(s)
 				'notice_cannot_install'           => _n_noop( 'Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed.', 'Sorry, but you do not have the correct permissions to install the %s plugins. Contact the administrator of this site for help on getting the plugins installed.' ), // %1$s = plugin name(s)
@@ -128,9 +128,9 @@ class GA_Top_Content {
 				'notice_cannot_update'            => _n_noop( 'Sorry, but you do not have the correct permissions to update the %s plugin. Contact the administrator of this site for help on getting the plugin updated.', 'Sorry, but you do not have the correct permissions to update the %s plugins. Contact the administrator of this site for help on getting the plugins updated.' ), // %1$s = plugin name(s)
 				'install_link'                    => _n_noop( 'Begin installing plugin', 'Begin installing plugins' ),
 				'activate_link'                   => _n_noop( 'Activate installed plugin', 'Activate installed plugins' ),
-				'return'                          => __( 'Return to Required Plugins Installer', 'top-google-posts' ),
-				'plugin_activated'                => __( 'Plugin activated successfully.', 'top-google-posts' ),
-				'complete'                        => __( 'All plugins installed and activated successfully. %s', 'top-google-posts' ) // %1$s = dashboard link
+				'return'                          => __( 'Return to Required Plugins Installer', 'google-analytics-top-content' ),
+				'plugin_activated'                => __( 'Plugin activated successfully.', 'google-analytics-top-content' ),
+				'complete'                        => __( 'All plugins installed and activated successfully. %s', 'google-analytics-top-content' ) // %1$s = dashboard link
 			)
 		);
 
@@ -141,29 +141,29 @@ class GA_Top_Content {
 	public function message_one() {
 		return sprintf(
 			'<p><strong>%s</strong></p><p><a href="%s" class="thickbox" title="%s">%s</a> | <a href="%s" class="thickbox" title="%s">%s</a>.</p>',
-			sprintf( __( 'The "Google Analytics Top Content" widget requires the plugin, %s, to be installed and activated.', 'gatpw' ), '<em>"Google Analytics for WordPress by MonsterInsights"</em>' ),
+			sprintf( __( 'The "Google Analytics Top Content" widget requires the plugin, %s, to be installed and activated.', 'google-analytics-top-content' ), '<em>"Google Analytics for WordPress by MonsterInsights"</em>' ),
 			admin_url( 'plugins.php?page=install-required-plugins' ),
-			__( 'Install Google Analytics for WordPress by MonsterInsights', 'gatpw' ),
-			__( 'Install plugin', 'gatpw' ),
+			__( 'Install Google Analytics for WordPress by MonsterInsights', 'google-analytics-top-content' ),
+			__( 'Install plugin', 'google-analytics-top-content' ),
 			admin_url( 'plugins.php' ),
-			__( 'Activate Google Analytics for WordPress by MonsterInsights', 'gatpw' ),
-			__( 'Activate plugin', 'gatpw' )
+			__( 'Activate Google Analytics for WordPress by MonsterInsights', 'google-analytics-top-content' ),
+			__( 'Activate plugin', 'google-analytics-top-content' )
 		);
 	}
 
 	public function message_two() {
 		$url = sprintf(
 			'<p>%s</p><p><a href="%s">%s</a>.</p>',
-			__( 'You must first authenticate to Google Analytics in the "Google Analytics for WordPress by MonsterInsights" settings for this widget to work.', 'gatpw' ),
+			__( 'You must first authenticate to Google Analytics in the "Google Analytics for WordPress by MonsterInsights" settings for this widget to work.', 'google-analytics-top-content' ),
 			admin_url( 'admin.php?page=yst_ga_settings' ),
-			__( 'Go to plugin settings', 'gatpw' )
+			__( 'Go to plugin settings', 'google-analytics-top-content' )
 		);
 		if ( defined( 'MONSTERINSIGHTS_VERSION' ) ) {
 			$url = sprintf(
 				'<p>%s</p><p><a href="%s">%s</a>.</p>',
-				__( 'You must first authenticate to Google Analytics in the "Google Analytics for WordPress by MonsterInsights" settings for this widget to work.', 'gatpw' ),
+				__( 'You must first authenticate to Google Analytics in the "Google Analytics for WordPress by MonsterInsights" settings for this widget to work.', 'google-analytics-top-content' ),
 				admin_url( 'admin.php?page=monsterinsights_settings' ),
-				__( 'Go to plugin settings', 'gatpw' )
+				__( 'Go to plugin settings', 'google-analytics-top-content' )
 			);
 		}
 
@@ -171,15 +171,12 @@ class GA_Top_Content {
 	}
 
 	public function change_link_text( $complete_link_text ) {
-		return __( 'Go to "Google Analytics for WordPress by MonsterInsights" plugin settings', 'gatpw' );
+		return __( 'Go to "Google Analytics for WordPress by MonsterInsights" plugin settings', 'google-analytics-top-content' );
 	}
 
 	public function change_link_url( $complete_link_url ) {
-		$url = admin_url( 'admin.php?page=yst_ga_settings' );
-		if ( defined( 'MONSTERINSIGHTS_VERSION' ) ) {
-			$url = admin_url( 'admin.php?page=monsterinsights_settings' );
-		}
-		return $url;
+		$page = defined( 'MONSTERINSIGHTS_VERSION' ) ? 'monsterinsights_settings' : 'yst_ga_settings';
+		return admin_url( 'admin.php?page=' . $page );
 	}
 
 	public function top_content_shortcode( $atts = array(), $context = 'shortcode', $number = 0 ) {
@@ -613,7 +610,7 @@ class GA_Top_Content {
 	}
 
 	public function id() {
-		if ( is_null( $this->id ) ) {
+		if ( null === $this->id ) {
 			if ( defined( 'MONSTERINSIGHTS_VERSION' ) ) {
 				$this->id = monsterinsights_get_option( 'analytics_profile', false );
 			} else {
@@ -645,7 +642,7 @@ class GA_Top_Content {
 		static $files_to_include = null;
 
 		if ( ! defined( 'GAWP_VERSION' ) ) {
-			trigger_error( 'GATC: ' . __( 'No requests can be made because Google Analytics Top Content Widget requires the Google Analytics for WordPress by MonsterInsights plugin to be installed and activated.', 'top-google-posts' ), E_USER_WARNING );
+			trigger_error( 'GATC: ' . __( 'No requests can be made because Google Analytics Top Content Widget requires the Google Analytics for WordPress by MonsterInsights plugin to be installed and activated.', 'google-analytics-top-content' ), E_USER_WARNING );
 			return;
 		}
 
