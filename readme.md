@@ -10,7 +10,7 @@
 **Requires at least:** 3.0  
 **Tested up to:** 4.4.2  
 **Stable tag:** trunk	  
-**Version:** 1.7.0  
+**Version:** 1.7.1  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -118,6 +118,9 @@ If you run into a problem or have a question, contact me ([contact form](http://
 
 
 ## Changelog
+
+### 1.7.1
+* Fix Check for "Google Analytics for WordPress by MonsterInsights" plugin when displaying widget settings
 
 ### 1.7.0
 * Update to support MonsterInsights > 6.0. Props [@chriscct7](https://github.com/chriscct7), [#18](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/pull/18).
