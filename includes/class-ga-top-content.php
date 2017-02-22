@@ -432,7 +432,7 @@ class GA_Top_Content {
 				return false;
 			}
 
-			$postfilters = array_map( 'absint', explode( ', ', esc_attr( $atts['postfilter'] ) ) );
+			$postfilters = array_map( 'trim', array_map( 'absint', explode( ',', esc_attr( $atts['postfilter'] ) ) ) );
 
 			if ( in_array( absint( $post->ID ), $postfilters, true ) ) {
 				return false;
@@ -443,7 +443,7 @@ class GA_Top_Content {
 	}
 
 	protected function in_categories( $post, $filter ) {
-		$cats = explode( ', ', esc_attr( $filter ) );
+		$cats = array_map( 'trim', explode( ',', esc_attr( $filter ) ) );
 		if ( empty( $cats ) ) {
 			return false;
 		}
