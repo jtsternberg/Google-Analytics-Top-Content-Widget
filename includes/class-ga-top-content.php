@@ -639,8 +639,6 @@ class GA_Top_Content {
 	}
 
 	public function make_request( $params, $context = '' ) {
-		static $files_to_include = null;
-
 		if ( ! defined( 'GAWP_VERSION' ) ) {
 			trigger_error( 'GATC: ' . __( 'No requests can be made because Google Analytics Top Content Widget requires the Google Analytics for WordPress by MonsterInsights plugin to be installed and activated.', 'google-analytics-top-content' ), E_USER_WARNING );
 			return;
@@ -662,9 +660,19 @@ class GA_Top_Content {
 	}
 
 	public function get_ga_intance() {
-		if ( class_exists( 'MonsterInsights_GA' ) ) {
-			return MonsterInsights()->ga;
+		if ( function_exists( 'MonsterInsights' ) ) {
+			$ga = MonsterInsights()->ga;
+
+			if ( empty( $ga ) ) {
+				// LazyLoad GA for Frontend
+				require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/admin/google.php';
+				MonsterInsights()->ga = $ga = new MonsterInsights_GA();
+			}
+
+			return $ga;
 		}
+
+		static $files_to_include = null;
 
 		if ( ! is_admin() && null === $files_to_include ) {
 			$files_to_include = array(
