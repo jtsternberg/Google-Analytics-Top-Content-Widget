@@ -115,6 +115,7 @@ If you run into a problem or have a question, contact me ([contact form](http://
 
 = 1.7.2 =
 * Fixes fatal errors caused by an update to the dependency plugin, "Google Analytics for WordPress by MonsterInsights". With the last release, they moved to only loading some resources in the admin, so we need to lazy load those resources on the frontend if they don't exist.
+* Allow comma (1,2,3) or comma-space (1, 2, 3) separated ids for the widget/shortcode settings for the category id filters and the post/page filter.
 
 = 1.7.1 =
 * Fix Check for "Google Analytics for WordPress by MonsterInsights" plugin when displaying widget settings
@@ -230,6 +231,7 @@ If you were using the shortcode and it broke, you will need to switch to using t
 
 = 1.7.2 =
 * Fixes fatal errors caused by an update to the dependency plugin, "Google Analytics for WordPress by MonsterInsights". With the last release, they moved to only loading some resources in the admin, so we need to lazy load those resources on the frontend if they don't exist.
+* Allow comma (1,2,3) or comma-space (1, 2, 3) separated ids for the widget/shortcode settings for the category id filters and the post/page filter.
 
 = 1.7.1 =
 * Fix Check for "Google Analytics for WordPress by MonsterInsights" plugin when displaying widget settings
