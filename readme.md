@@ -10,9 +10,9 @@
 **Requires at least:** 3.0  
 **Tested up to:** 4.4.2  
 **Stable tag:** trunk	  
-**Version:** 1.7.1  
+**Version:** 1.7.2  
 **License:** GPLv2 or later  
-**License URI:** http://www.gnu.org/licenses/gpl-2.0.html
+**License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
 Widget and shortcode to display top content according to Google Analytics. ("Google Analytics for WordPress by MonsterInsights" plugin required)
 
@@ -118,6 +118,9 @@ If you run into a problem or have a question, contact me ([contact form](http://
 
 
 ## Changelog
+
+### 1.7.2
+* Fixes fatal errors caused by an update to the dependency plugin, "Google Analytics for WordPress by MonsterInsights". With the last release, they moved to only loading some resources in the admin, so we need to lazy load those resources on the frontend if they don't exist.
 
 ### 1.7.1
 * Fix Check for "Google Analytics for WordPress by MonsterInsights" plugin when displaying widget settings

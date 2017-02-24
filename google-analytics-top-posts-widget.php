@@ -15,7 +15,7 @@
  * Author:      Jtsternberg
  * Author URI:  http://dsgnwrks.pro
  * Donate link: http://j.ustin.co/rYL89n
- * Version:     1.7.1
+ * Version:     1.7.2
  * Text Domain: google-analytics-top-content
  * Domain Path: /languages
  */
