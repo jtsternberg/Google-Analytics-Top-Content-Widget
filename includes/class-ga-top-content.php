@@ -645,6 +645,9 @@ class GA_Top_Content {
 		}
 
 		$ga = $this->get_ga_intance();
+		if ( empty( $ga ) ) {
+			return false;
+		}
 
 		$params = apply_filters( 'gtc_analytics_request_params', $params );
 
@@ -660,6 +663,10 @@ class GA_Top_Content {
 	}
 
 	public function get_ga_intance() {
+		if ( version_compare( GAWP_VERSION, '7.0.0' ) >= 0 ) {
+			return false;
+		}
+
 		if ( function_exists( 'MonsterInsights' ) ) {
 			$ga = MonsterInsights()->ga;
 
