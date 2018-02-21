@@ -9,9 +9,9 @@ Author: Jtsternberg
 Author URI: http://dsgnwrks.pro
 Donate link: http://j.ustin.co/rYL89n
 Requires at least: 3.0
-Tested up to: 4.4.2
+Tested up to: 4.9.4
 Stable tag: trunk
-Version: 1.7.2
+Version: 1.7.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -112,6 +112,9 @@ If you run into a problem or have a question, contact me ([contact form](http://
 2. Widget display (in an ordered list).
 
 == Changelog ==
+
+= 1.7.3 =
+* Disables requests to stop site fatal errors caused by the 7.0.0 update to the dependency plugin, "Google Analytics for WordPress by MonsterInsights". THIS IS NOT A FIX, but rather a temporary measure to fix fatal errors on the front-end of your site. Follow along with [this issue](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/issues/25) to see what will be the next steps.
 
 = 1.7.2 =
 * Fixes fatal errors caused by an update to the dependency plugin, "Google Analytics for WordPress by MonsterInsights". With the last release, they moved to only loading some resources in the admin, so we need to lazy load those resources on the frontend if they don't exist.
@@ -228,6 +231,9 @@ If you were using the shortcode and it broke, you will need to switch to using t
 
 
 == Upgrade Notice ==
+
+= 1.7.3 =
+* Disables requests to stop site fatal errors caused by the 7.0.0 update to the dependency plugin, "Google Analytics for WordPress by MonsterInsights". THIS IS NOT A FIX, but rather a temporary measure to fix fatal errors on the front-end of your site. Follow along with [this issue](https://github.com/jtsternberg/Google-Analytics-Top-Content-Widget/issues/25) to see what will be the next steps.
 
 = 1.7.2 =
 * Fixes fatal errors caused by an update to the dependency plugin, "Google Analytics for WordPress by MonsterInsights". With the last release, they moved to only loading some resources in the admin, so we need to lazy load those resources on the frontend if they don't exist.
